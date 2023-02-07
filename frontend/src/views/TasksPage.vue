@@ -3,37 +3,51 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Tasks</ion-title>
+        <ion-buttons slot="primary">
+          <ion-button fill="solid">
+            Add new Task
+            <ion-icon slot="end" :icon="addCircle"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Todos</ion-title>
-        </ion-toolbar>
-      </ion-header>
+      <!--Es wird immer eine Liste pro Datum erstellt (For Each)-->
       <ion-list>
-        <ion-item :key="todo.id" v-for="todo in todos">
+        <ion-list-header lines="full">
+          <ion-label>13.02.2023</ion-label>
+        </ion-list-header>
+        <ion-item
+          button
+          :router-link="'/tabs/tasks/' + 'task.id'"
+          lines="inset"
+        >
           <ion-grid>
             <ion-row>
               <ion-col>
-                {{ todo.title }}
+                <ion-label>Invite friends</ion-label>
               </ion-col>
+
               <ion-col>
-                <ion-button color="danger" v-if="!todo.done && !todo.archived"
-                  @click="finishTodo(todo)">Finish</ion-button>
-                <ion-button color="success" v-if="todo.done && !todo.archived"
-                  @click="archiveTodo(todo)">Archive</ion-button>
+                <ion-label>Actionlist: Calls</ion-label>
+              </ion-col>
+
+              <ion-col>
+                <ion-label>Cash</ion-label>
               </ion-col>
             </ion-row>
           </ion-grid>
         </ion-item>
+        <ion-item>
+          <ion-label>Task 2</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Task 3</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Task 4</ion-label>
+        </ion-item>
       </ion-list>
-      <ion-item>
-        <ion-input type="text" placeholder="New Todo Title" v-model="newTodo.title"></ion-input>
-      </ion-item>
-      <div padding>
-        <ion-button @click="addTodo()">Add New ToDo</ion-button>
-      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -52,9 +66,21 @@ import {
   IonList,
   IonButton,
   IonInput,
+  IonButtons,
 } from "@ionic/vue";
+import { addCircle } from "ionicons/icons";
 import { useTodos } from "../composables/useTodos";
 
-const { newTodo, todos, getTodos, addTodo, finishTodo, archiveTodo } = useTodos();
-
+const { newTodo, todos, getTodos, addTodo, finishTodo, archiveTodo } =
+  useTodos();
 </script>
+
+<style scoped>
+ion-col {
+  text-align: center;
+}
+
+ion-list-header {
+  text-align: center;
+}
+</style>
