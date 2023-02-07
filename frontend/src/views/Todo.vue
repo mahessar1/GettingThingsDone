@@ -3,6 +3,11 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Todos</ion-title>
+        <ion-buttons slot="primary">
+      <ion-button fill="solid">
+        Help
+        <ion-icon slot="end" :icon="helpCircle"></ion-icon>
+      </ion-button>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -54,6 +59,7 @@ import {
   IonInput,
 } from "@ionic/vue";
 import { useTodos } from "../composables/useTodos";
+import { addCircle } from "ionicons/icons";
 
 const { newTodo, todos, getTodos, addTodo, finishTodo, archiveTodo } = useTodos();
 
