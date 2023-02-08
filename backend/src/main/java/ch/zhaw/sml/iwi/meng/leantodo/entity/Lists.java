@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import org.springframework.data.annotation.LastModifiedDate;
+
 import lombok.Data;
 
 @Entity
@@ -25,6 +27,7 @@ public class Lists {
     private Long id;
 
     private String title;
+    @LastModifiedDate
     private LocalDateTime created;
     
 }

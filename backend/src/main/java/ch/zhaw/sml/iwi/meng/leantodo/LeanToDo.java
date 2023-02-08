@@ -4,13 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import ch.zhaw.sml.iwi.meng.leantodo.entity.Role;
-import ch.zhaw.sml.iwi.meng.leantodo.entity.RoleRepository;
-import ch.zhaw.sml.iwi.meng.leantodo.entity.ToDo;
-import ch.zhaw.sml.iwi.meng.leantodo.entity.ToDoRepository;
-import ch.zhaw.sml.iwi.meng.leantodo.entity.User;
-import ch.zhaw.sml.iwi.meng.leantodo.entity.UserRepository;
-
 @SpringBootApplication
 //@EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -20,16 +13,6 @@ public class LeanToDo /*implements CommandLineRunner*/ {
         SpringApplication.run(LeanToDo.class, args);
         
     }
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    
-    @Autowired
-    private ToDoRepository toDoRepository;
 
     /* 
     @Bean
