@@ -12,9 +12,7 @@ public interface ListRepository extends JpaRepository<Lists, Long> {
     @Query("from ProjectList")
     public List<Lists> getAllProjectLists();
 
-    
-     @Query("from ActionList")
-     public List<Lists> findAllActionList();
-     
+    @Query("from ActionList")
+    public List<Lists> findAllActionList();
 
 }

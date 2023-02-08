@@ -26,7 +26,17 @@ public class ListRestController {
     @Autowired
     private ListRepository listRepository;
 
-    @GetMapping("api/lists/projects")
+    @GetMapping(path="api/lists")
+    public ResponseEntity<List<Lists>> getAllLists() {
+        List<Lists> result = listRepository.findAll();
+        if (!result.isEmpty()) {
+            return new ResponseEntity<List<Lists>>(result, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(path="api/lists/projectlists")
     public ResponseEntity<List<Lists>> getAllProjectLists() {
         List<Lists> result = listRepository.getAllProjectLists();
         if (!result.isEmpty()) {
@@ -36,15 +46,13 @@ public class ListRestController {
         }
     }
 
-    
-     @GetMapping(path = "api/lists/actionlists")
-     public ResponseEntity<List<Lists>> getAllActionLists() {
-     List<Lists> result = listRepository.findAllActionList();
-     return new ResponseEntity<List<Lists>>(result, HttpStatus.OK);
-     }
-     
+    @GetMapping(path="api/lists/actionlists")
+    public ResponseEntity<List<Lists>> getAllActionLists() {
+        List<Lists> result = listRepository.findAllActionList();
+        return new ResponseEntity<List<Lists>>(result, HttpStatus.OK);
+    }
 
-    @GetMapping(path = "api/lists/{id}")
+    @GetMapping(path="api/lists/{id}")
     public ResponseEntity<Lists> getListById(@PathVariable Long id) {
         Optional<Lists> result = listRepository.findById(id);
 
@@ -55,7 +63,7 @@ public class ListRestController {
         }
     }
 
-    @PostMapping("api/lists/projects")
+    @PostMapping(path="api/lists/projectlists")
     public ResponseEntity<Lists> createProject(@RequestBody ProjectList projectList) {
 
         projectList.setCreated(LocalDateTime.now());
@@ -63,7 +71,7 @@ public class ListRestController {
         return new ResponseEntity<Lists>(result, HttpStatus.CREATED);
     }
 
-    @PostMapping("api/lists/actionlists")
+    @PostMapping(path="api/lists/actionlists")
     public ResponseEntity<Lists> createActionList(@RequestBody ActionList actionList) {
 
         actionList.setCreated(LocalDateTime.now());
