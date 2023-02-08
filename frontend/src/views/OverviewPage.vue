@@ -8,8 +8,15 @@
               <ion-title>Overview</ion-title>
             </ion-col>
             <ion-col>
-              <ion-button style="float: right">Neuer Task</ion-button>
-            </ion-col> 
+              <ion-page id="main-content">
+                <ion-content class="ion-padding"> </ion-content>
+              </ion-page>
+              <ion-menu-toggle>
+                <ion-button style="float: right"
+                  >Click to add a task</ion-button
+                >
+              </ion-menu-toggle>
+            </ion-col>
           </ion-row>
         </ion-grid>
       </ion-toolbar>
@@ -20,6 +27,17 @@
           <ion-title size="large">Overview</ion-title>
         </ion-toolbar>
       </ion-header>
+      <ion-menu :type="menuType" content-id="main-content">
+        <ion-content class="ion-padding">
+          <ion-toolbar>
+            <ion-title>In which list you wanna add this task?</ion-title>
+          </ion-toolbar>
+          <ion-button>Add an undefined task</ion-button>
+          <ion-menu-toggle>
+            <ion-button>Click to close the menu</ion-button>
+          </ion-menu-toggle>
+        </ion-content>
+      </ion-menu>
       <ion-list>
         <ion-list-header lines="full">
           <ion-label>13.02.2023</ion-label>
@@ -43,6 +61,8 @@
 
 <script setup lang="ts">
 import {
+  IonMenuToggle,
+  IonMenuButton,
   IonItem,
   IonLabel,
   IonListHeader,
@@ -53,6 +73,9 @@ import {
   IonTitle,
   IonContent,
 } from "@ionic/vue";
+import { ref } from "vue";
+
+const menuType = ref("overlay");
 </script>
 
 <style>
