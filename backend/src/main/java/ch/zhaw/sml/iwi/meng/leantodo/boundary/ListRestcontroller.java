@@ -19,33 +19,34 @@ import ch.zhaw.sml.iwi.meng.leantodo.entity.ProjectList;
 
 @RestController
 @CrossOrigin
-public class ListRestcontroller {
+public class ListRestController {
 
     @Autowired
     private ListRepository listRepository;
 
-    @GetMapping(path="/api/lists/projects")
+    @GetMapping(path = "api/lists/projects")
     public ResponseEntity<List<Lists>> getAllProjectLists() {
-        List<Lists> result = listRepository.findAllProjectList();
+        List<Lists> result = listRepository.getAllProjectLists();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping(path="/api/lists/actionlists")
-    public ResponseEntity<List<Lists>> getAllActionLists() {
-        List<Lists> result = listRepository.findAllActionList();
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+    /*
+     * @GetMapping(path = "/api/lists/actionlists")
+     * public ResponseEntity<List<Lists>> getAllActionLists() {
+     * List<Lists> result = listRepository.findAllActionList();
+     * return new ResponseEntity<>(result, HttpStatus.OK);
+     * }
+     */
 
-    @GetMapping(path="/api/lists/{id}")
+    @GetMapping(path = "/api/lists/{id}")
     public ResponseEntity<Lists> getListById(@PathVariable Long id) {
         Optional<Lists> result = listRepository.findById(id);
 
-        if(result.isPresent()) {
-        return new ResponseEntity<>(result.get(), HttpStatus.OK);
+        if (result.isPresent()) {
+            return new ResponseEntity<>(result.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
 }
