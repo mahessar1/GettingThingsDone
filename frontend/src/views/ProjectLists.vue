@@ -19,14 +19,26 @@
       </ion-header>
       <ion-card v-for="project in projects" v-bind:key="project">
         <ion-card-header>
-          <ion-card-title>{{ project }}</ion-card-title>
+          <ion-card-title
+            >{{ project }}
+            <ion-button fill="solid" color="success" size="small" style="float: right">
+              Finish Project
+              <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
+            </ion-button>
+          </ion-card-title>
         </ion-card-header>
 
         <ion-card-content> Project Description </ion-card-content>
 
-        <ion-button fill="clear" router-link="/tabs/taskdetails">View Tasks</ion-button>
+        <ion-button fill="clear" router-link="/tabs/taskdetails"
+          >View Tasks</ion-button
+        >
         <ion-button fill="clear">Edit Project</ion-button>
-        <ion-button fill="clear">Delete Project</ion-button>
+        <ion-button fill="clear" color="danger" @click="presentAlert"
+          >Delete Project</ion-button
+        >
+        <p>{{ handlerMessage }}</p>
+        <p>{{ roleMessage }}</p>
       </ion-card>
     </ion-content>
   </ion-page>
@@ -44,9 +56,40 @@ import {
   IonFab,
   IonFabButton,
   IonIcon,
+  alertController,
 } from "@ionic/vue";
 import { ref } from "vue";
-import { addCircle } from "ionicons/icons";
+import { addCircle, checkmarkCircle } from "ionicons/icons";
+
+const handlerMessage = ref("");
+const roleMessage = ref("");
+
+const presentAlert = async () => {
+  const alert = await alertController.create({
+    header: "Are you sure?",
+    buttons: [
+      {
+        text: "No",
+        role: "cancel",
+        handler: () => {
+          handlerMessage.value = "Alert canceled";
+        },
+      },
+      {
+        text: "Yes",
+        role: "confirm",
+        handler: () => {
+          handlerMessage.value = "Project deleted";
+        },
+      },
+    ],
+  });
+
+  await alert.present();
+
+  const { role } = await alert.onDidDismiss();
+  roleMessage.value = `Dismissed with role: ${role}`;
+};
 
 const projects = ref<any>([]);
 projects.value = [
@@ -58,8 +101,8 @@ projects.value = [
 </script>
 
 <style scoped>
-
 ion-list-header {
   text-align: center;
 }
+
 </style>

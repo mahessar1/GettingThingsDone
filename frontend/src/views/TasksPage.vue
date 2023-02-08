@@ -49,6 +49,17 @@
         </ion-item>
       </ion-list>
     </ion-content>
+    <ion-menu :type="menuType" content-id="main-content">
+      <ion-content class="ion-padding">
+        <ion-toolbar>
+          <ion-title>In which list you wanna add this task?</ion-title>
+        </ion-toolbar>
+        <ion-button>Add an undefined task</ion-button>
+        <ion-menu-toggle>
+          <ion-button>Close the menu</ion-button>
+        </ion-menu-toggle>
+      </ion-content>
+    </ion-menu>
   </ion-page>
 </template>
 
@@ -68,8 +79,11 @@ import {
   IonInput,
   IonButtons,
 } from "@ionic/vue";
+import { ref } from "vue";
 import { addCircle } from "ionicons/icons";
 import { useTodos } from "../composables/useTodos";
+
+const menuType = ref("overlay");
 
 const { newTodo, todos, getTodos, addTodo, finishTodo, archiveTodo } =
   useTodos();
