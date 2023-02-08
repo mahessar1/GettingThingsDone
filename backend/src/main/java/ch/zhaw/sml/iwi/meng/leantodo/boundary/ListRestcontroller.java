@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +27,7 @@ public class ListRestController {
     @Autowired
     private ListRepository listRepository;
 
-    @GetMapping(path="api/lists")
+    @GetMapping(path = "api/lists")
     public ResponseEntity<List<Lists>> getAllLists() {
         List<Lists> result = listRepository.findAll();
         if (!result.isEmpty()) {
@@ -36,7 +37,7 @@ public class ListRestController {
         }
     }
 
-    @GetMapping(path="api/lists/projectlists")
+    @GetMapping(path = "api/lists/projectlists")
     public ResponseEntity<List<Lists>> getAllProjectLists() {
         List<Lists> result = listRepository.getAllProjectLists();
         if (!result.isEmpty()) {
@@ -46,13 +47,13 @@ public class ListRestController {
         }
     }
 
-    @GetMapping(path="api/lists/actionlists")
+    @GetMapping(path = "api/lists/actionlists")
     public ResponseEntity<List<Lists>> getAllActionLists() {
         List<Lists> result = listRepository.findAllActionList();
         return new ResponseEntity<List<Lists>>(result, HttpStatus.OK);
     }
 
-    @GetMapping(path="api/lists/{id}")
+    @GetMapping(path = "api/lists/{id}")
     public ResponseEntity<Lists> getListById(@PathVariable Long id) {
         Optional<Lists> result = listRepository.findById(id);
 
@@ -63,7 +64,7 @@ public class ListRestController {
         }
     }
 
-    @PostMapping(path="api/lists/projectlists")
+    @PostMapping(path = "api/lists/projectlists")
     public ResponseEntity<Lists> createProject(@RequestBody ProjectList projectList) {
 
         projectList.setCreated(LocalDateTime.now());
@@ -71,12 +72,42 @@ public class ListRestController {
         return new ResponseEntity<Lists>(result, HttpStatus.CREATED);
     }
 
-    @PostMapping(path="api/lists/actionlists")
+    @PostMapping(path = "api/lists/actionlists")
     public ResponseEntity<Lists> createActionList(@RequestBody ActionList actionList) {
 
         actionList.setCreated(LocalDateTime.now());
         Lists result = listRepository.save(actionList);
         return new ResponseEntity<Lists>(result, HttpStatus.CREATED);
+    }
+
+    @PutMapping(path = "api/lists/actionlists/{id}")
+    public ResponseEntity<Lists> changeActionList(@PathVariable Long id, @RequestBody ActionList actionList) {
+        Optional<Lists> optionalList = listRepository.findById(id);
+
+        if (optionalList.isPresent()) {
+            Lists result = optionalList.get();
+            actionList.setId(result.getId());
+            actionList.setCreated(result.getCreated());
+            listRepository.save(actionList);
+            return new ResponseEntity<Lists>(result, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping(path = "api/lists/projectlists/{id}")
+    public ResponseEntity<Lists> changeProjectList(@PathVariable Long id, @RequestBody ProjectList projectList) {
+        Optional<Lists> optionalList = listRepository.findById(id);
+
+        if (optionalList.isPresent()) {
+            Lists result = optionalList.get();
+            projectList.setId(result.getId());
+            projectList.setCreated(result.getCreated());
+            listRepository.save(projectList);
+            return new ResponseEntity<Lists>(result, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
