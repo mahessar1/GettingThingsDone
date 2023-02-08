@@ -27,7 +27,11 @@ public class ListRestController {
     @GetMapping(path = "api/lists/projects")
     public ResponseEntity<List<Lists>> getAllProjectLists() {
         List<Lists> result = listRepository.getAllProjectLists();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        if (!result.isEmpty()) {
+        return new ResponseEntity<List<Lists>>(result, HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     }
 
     /*
