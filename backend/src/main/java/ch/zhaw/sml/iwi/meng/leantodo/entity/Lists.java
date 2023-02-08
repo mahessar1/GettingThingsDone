@@ -2,6 +2,7 @@ package ch.zhaw.sml.iwi.meng.leantodo.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -29,5 +31,7 @@ public class Lists {
     private String title;
     @LastModifiedDate
     private LocalDateTime created;
-    
+    @OneToMany
+    private List<Task> taskList;
+
 }

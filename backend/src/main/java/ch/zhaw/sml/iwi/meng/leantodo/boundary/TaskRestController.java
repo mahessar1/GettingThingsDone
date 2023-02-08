@@ -57,11 +57,9 @@ public class TaskRestController {
 
         }
     }
-    Lists list;
     @PostMapping("api/tasks")
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         task.setCreated(LocalDateTime.now());
-        
         Task newTask = taskRepository.save(task);
         return new ResponseEntity<Task>(newTask, HttpStatus.OK);
     }
