@@ -1,7 +1,16 @@
 package ch.zhaw.sml.iwi.meng.leantodo.entity;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-public interface ListRepository extends JpaRepository<List, Long>{
-    
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+public interface ListRepository extends JpaRepository<Lists, Long> {
+
+    @Query("SELECT l from List as l WHERE l.listtype = Projectlist")
+    public List<Lists> findAllProjectList();
+
+    @Query("SELECT l from List as l WHERE l.listtype = Actionlist")
+    public List<Lists> findAllActionList();
+
 }

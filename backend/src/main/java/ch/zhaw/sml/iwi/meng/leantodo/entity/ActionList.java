@@ -8,7 +8,7 @@ import lombok.Data;
 @Entity
 @Data
 @DiscriminatorValue("Actionlist")
-public class ActionList extends List {
+public class ActionList extends Lists {
 
     
 }
