@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>Tasks</ion-title>
         <ion-buttons slot="primary">
-          <ion-button fill="solid">
+          <ion-button fill="solid" color="primary">
             Add new Task
             <ion-icon slot="end" :icon="addCircle"></ion-icon>
           </ion-button>

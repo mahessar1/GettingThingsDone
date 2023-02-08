@@ -10,7 +10,7 @@ import lombok.Data;
 @Entity
 @Data
 @DiscriminatorValue("Projectlist")
-public class ProjectList extends List{
+public class ProjectList extends Lists{
 
     private String description;
     private int priority;
