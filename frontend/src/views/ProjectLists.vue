@@ -24,7 +24,7 @@
 
         <ion-card-content> Project Description </ion-card-content>
 
-        <ion-button fill="clear">View Tasks</ion-button>
+        <ion-button fill="clear" router-link="/tabs/taskdetails">View Tasks</ion-button>
         <ion-button fill="clear">Edit Project</ion-button>
         <ion-button fill="clear">Delete Project</ion-button>
       </ion-card>
