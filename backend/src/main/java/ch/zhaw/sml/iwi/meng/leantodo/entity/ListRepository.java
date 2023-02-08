@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ListRepository extends JpaRepository<Lists, Long> {
 
-    @Query("SELECT l from Lists l WHERE TYPE(l) = Projectlist")
+    @Query("from ProjectList")
     public List<Lists> getAllProjectLists();
 
-    /*
-     * @Query("SELECT l from Lists l WHERE l.listtype = 'Actionlist'")
-     * public List<Lists> findAllActionList();
-     */
+    
+     @Query("from ActionList")
+     public List<Lists> findAllActionList();
+     
 
 }
