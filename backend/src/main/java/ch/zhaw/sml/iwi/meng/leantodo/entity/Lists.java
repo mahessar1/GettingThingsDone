@@ -34,4 +34,13 @@ public class Lists {
     @OneToMany
     private List<Task> taskList;
 
+    public void addTask(Task task) {
+        if (!this.taskList.contains(task)) {
+            this.taskList.add(task);
+            if (task.getLists() == null) {
+                task.setLists(this);
+            }
+        }
+    }
+
 }

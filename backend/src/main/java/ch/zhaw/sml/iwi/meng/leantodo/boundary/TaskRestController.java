@@ -16,21 +16,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.zhaw.sml.iwi.meng.leantodo.entity.ListRepository;
 import ch.zhaw.sml.iwi.meng.leantodo.entity.Lists;
 import ch.zhaw.sml.iwi.meng.leantodo.entity.Task;
 import ch.zhaw.sml.iwi.meng.leantodo.entity.TaskRepository;
+import ch.zhaw.sml.iwi.meng.leantodo.model.TaskModel;
 
 @RestController
 @CrossOrigin
 public class TaskRestController {
-    
+
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private ListRepository listRepository;
 
     @GetMapping("api/tasks")
     public ResponseEntity<List<Task>> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
-        if(!tasks.isEmpty()) {
+        if (!tasks.isEmpty()) {
             return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
         } else {
             return new ResponseEntity<List<Task>>(HttpStatus.NOT_FOUND);
@@ -40,7 +45,7 @@ public class TaskRestController {
     @GetMapping("api/tasks/{id}")
     public ResponseEntity<Task> getTaskPerId(@PathVariable("id") Long id) {
         Optional<Task> task = taskRepository.findById(id);
-        if(task.isPresent()) {
+        if (task.isPresent()) {
             return new ResponseEntity<Task>(task.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
@@ -48,20 +53,42 @@ public class TaskRestController {
     }
 
     @GetMapping("api/lists/{id}/tasks")
-    public ResponseEntity<List<Task>> getTasksInList (@PathVariable("id") Long id) {
+    public ResponseEntity<List<Task>> getTasksInList(@PathVariable("id") Long id) {
         List<Task> projectTasks = taskRepository.getTasksPerList(id);
-        if(!projectTasks.isEmpty()) {
+        if (!projectTasks.isEmpty()) {
             return new ResponseEntity<List<Task>>(projectTasks, HttpStatus.OK);
         } else {
             return new ResponseEntity<List<Task>>(HttpStatus.NOT_FOUND);
 
         }
     }
+
     @PostMapping("api/tasks")
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        task.setCreated(LocalDateTime.now());
-        Task newTask = taskRepository.save(task);
-        return new ResponseEntity<Task>(newTask, HttpStatus.OK);
+    public ResponseEntity<Task> createTask(@RequestBody TaskModel taskModel) {
+
+        try {
+            Task result = new Task();
+            result.setTitle(taskModel.getTitle());
+            result.setDescription(taskModel.getDescription());
+            result.setCreated(LocalDateTime.now());
+            result.setStatus(taskModel.getStatus());
+            result.setCategory(taskModel.getCategory());
+            result.setDueDate(taskModel.getDueDate());
+
+            if(!(taskModel.getListId() == null)) {
+            Optional<Lists> lists = listRepository.findById(taskModel.getListId());
+            if (lists.isPresent()) {
+                result.setLists(lists.get());
+                lists.get().addTask(result);
+            }} else {
+                result.setLists(null);
+            }
+        
+            taskRepository.save(result);
+            return new ResponseEntity<Task>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("api/tasks/{id}")

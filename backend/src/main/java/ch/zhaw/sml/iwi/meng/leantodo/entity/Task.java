@@ -19,16 +19,16 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
     private String description;
     private LocalDateTime created;
     private Integer status;
     private String category;
     private LocalDate dueDate;
+
     @ManyToOne
     @JsonIgnore
     private Lists lists;
-    
-   
 
 }
