@@ -20,7 +20,7 @@ public class Task {
     private String title;
     private String description;
     private LocalDateTime created;
-    private String status;
+    private Integer status;
     private String category;
     private LocalDate dueDate;
     @ManyToOne
