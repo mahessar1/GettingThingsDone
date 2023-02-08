@@ -1,5 +1,19 @@
 package ch.zhaw.sml.iwi.meng.leantodo.entity;
 
-public class ProjectList {
-    
+import java.time.LocalDate;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+import lombok.Data;
+
+@Entity
+@Data
+@DiscriminatorValue("Projectlist")
+public class ProjectList extends List{
+
+    private String description;
+    private int priority;
+    private LocalDate due;
+    private int status;
 }
