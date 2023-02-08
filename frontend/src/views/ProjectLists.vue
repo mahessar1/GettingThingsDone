@@ -3,22 +3,15 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Projects</ion-title>
+        <ion-buttons slot="primary">
+          <ion-button fill="solid" color="primary">
+            Add new Project
+            <ion-icon slot="end" :icon="addCircle"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
-    <ion-fab slot="fixed" vertical="top" horizontal="end" :edge="true">
-      <ion-fab-button>
-        <ion-icon :icon="add"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-list side="bottom">
-        <ion-fab-button>
-          <ion-icon :icon="trailSign" />
-        </ion-fab-button>
-        <ion-fab-button>
-          <ion-icon :icon="flash" />
-        </ion-fab-button>
-      </ion-fab-list>
-    </ion-fab>
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Projects</ion-title>
@@ -32,6 +25,7 @@
         <ion-card-content> Project Description </ion-card-content>
 
         <ion-button fill="clear">View Tasks</ion-button>
+        <ion-button fill="clear">Edit Project</ion-button>
         <ion-button fill="clear">Delete Project</ion-button>
       </ion-card>
     </ion-content>
@@ -52,7 +46,7 @@ import {
   IonIcon,
 } from "@ionic/vue";
 import { ref } from "vue";
-import { add, flash, trailSign} from 'ionicons/icons';
+import { addCircle } from "ionicons/icons";
 
 const projects = ref<any>([]);
 projects.value = [
@@ -62,3 +56,10 @@ projects.value = [
   "Heimkino",
 ];
 </script>
+
+<style scoped>
+
+ion-list-header {
+  text-align: center;
+}
+</style>
