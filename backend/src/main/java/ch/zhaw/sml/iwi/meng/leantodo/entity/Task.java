@@ -24,7 +24,7 @@ public class Task {
     private String category;
     private LocalDate dueDate;
     @ManyToOne
-    private List list;
+    private Lists lists;
     
    
 
