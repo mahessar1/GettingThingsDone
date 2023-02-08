@@ -17,8 +17,8 @@ import lombok.Data;
 @Entity
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Status", discriminatorType = DiscriminatorType.STRING)
-public class List {
+@DiscriminatorColumn(name = "Listtype", discriminatorType = DiscriminatorType.STRING)
+public class Lists {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
