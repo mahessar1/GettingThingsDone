@@ -18,7 +18,7 @@
           <ion-label>Projects</ion-label>
         </ion-tab-button>
         
-        <ion-tab-button tab="actionlists" href="/tabs/actionslists">
+        <ion-tab-button tab="actionlists" href="/tabs/actionlists">
           <ion-icon :icon="walk" />
           <ion-label>Action</ion-label>
         </ion-tab-button>
