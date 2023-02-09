@@ -117,19 +117,11 @@ public class ListRestContoller {
         }
     }
 
-    @DeleteMapping(path = "api/lists/projectlist/{id}")
+    @DeleteMapping(path = "api/lists/projectlists/{id}")
     public ResponseEntity<Long> deleteProjectList(@PathVariable("id") Long id) {
         Optional<Lists> optionalList = listRepository.findById(id);
 
         if (optionalList.isPresent()) {
-            /* 
-            List taskIds = new ArrayList<>();
-            for (Task i : optionalList.get().getTaskList()) {
-                taskIds.add(i.getId());
-            }
-            if (!taskIds.isEmpty()) {
-                taskRepository.deleteAllById(taskIds);
-            }*/
             listRepository.deleteById(id);
             return new ResponseEntity<Long>(id, HttpStatus.OK);
         } else {
@@ -142,14 +134,12 @@ public class ListRestContoller {
         Optional<Lists> optionalList = listRepository.findById(id);
 
         if (optionalList.isPresent()) {
-            /* 
-            List taskIds = new ArrayList<>();
-            for (Task i : optionalList.get().getTaskList()) {
-                taskIds.add(i.getId());
+            List<Task> tasklist = new ArrayList<>(taskRepository.getTasksPerList(id));
+            for (Task i : tasklist) {
+                i.setLists(null);
+                taskRepository.save(i);
             }
-            if (!taskIds.isEmpty()) {
-                taskRepository.deleteAllById(taskIds);
-            }*/
+            optionalList.get().setTaskList(null);
             listRepository.deleteById(id);
             return new ResponseEntity<Long>(id, HttpStatus.OK);
         } else {
