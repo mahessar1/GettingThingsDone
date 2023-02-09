@@ -16,11 +16,17 @@
       </ion-item>
       <ion-item>
         <ion-label>Assign to list</ion-label>
-        <ion-select placeholder="Choose List">
+        <ion-select placeholder="Choose List" @ion-change="chosenList.value = JSON.stringify($event.detail.value)">
           <ion-select-option value="Unassigned">Unassigned</ion-select-option>
           <ion-select-option value="Action">Action</ion-select-option>
           <ion-select-option value="Project">Project</ion-select-option>
         </ion-select>
+        <ion-item v-if="chosenList.value === 'Project'">
+        <ion-label>Select Project</ion-label>
+        <ion-select placeholder="Choose Projectlist">
+          <ion-select-option v-for="projectlist in projectlists" :value="projectlist.id" :key="projectlist.id">{{ projectlist.title }}</ion-select-option>
+        </ion-select>
+      </ion-item>
       </ion-item>
         <ion-item>
           <ion-label>Select due date</ion-label>
@@ -52,10 +58,20 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonSelectOption,
+  IonSelect
 } from "@ionic/vue";
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import { ref } from "vue";
+import { useProjectlists } from "@/composables/useProjectlists";
+import { Projectlist } from "@/model/projectlist";
 
-const lists = ref<any>([]);
-lists.value = ["Unassigned", "Action", "Project"];
+const liststype = ref<any>([]);
+liststype.value = ["Unassigned", "Action", "Project"];
+
+const chosenList = ref<any>("");
+
+const {projectlists, getProjectlists} = useProjectlists();
+
+
 </script>

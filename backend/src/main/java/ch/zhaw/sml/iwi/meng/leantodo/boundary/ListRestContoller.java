@@ -1,6 +1,7 @@
 package ch.zhaw.sml.iwi.meng.leantodo.boundary;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,8 @@ import ch.zhaw.sml.iwi.meng.leantodo.entity.ActionList;
 import ch.zhaw.sml.iwi.meng.leantodo.entity.ListRepository;
 import ch.zhaw.sml.iwi.meng.leantodo.entity.Lists;
 import ch.zhaw.sml.iwi.meng.leantodo.entity.ProjectList;
+import ch.zhaw.sml.iwi.meng.leantodo.entity.Task;
+import ch.zhaw.sml.iwi.meng.leantodo.entity.TaskRepository;
 
 @RestController
 @CrossOrigin
@@ -27,6 +30,9 @@ public class ListRestContoller {
 
     @Autowired
     private ListRepository listRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @GetMapping(path = "api/lists")
     public ResponseEntity<List<Lists>> getAllLists() {
@@ -111,13 +117,31 @@ public class ListRestContoller {
         }
     }
 
-    @DeleteMapping(path = "api/lists/{id}")
-    public ResponseEntity<Lists> deleteList(@PathVariable Long id) {
+    @DeleteMapping(path = "api/lists/projectlists/{id}")
+    public ResponseEntity<Long> deleteProjectList(@PathVariable("id") Long id) {
         Optional<Lists> optionalList = listRepository.findById(id);
 
         if (optionalList.isPresent()) {
-            listRepository.delete(optionalList.get());
-            return new ResponseEntity<Lists>(optionalList.get(), HttpStatus.OK);
+            listRepository.deleteById(id);
+            return new ResponseEntity<Long>(id, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping(path = "api/lists/actionlists/{id}")
+    public ResponseEntity<Long> deleteActionList(@PathVariable("id") Long id) {
+        Optional<Lists> optionalList = listRepository.findById(id);
+
+        if (optionalList.isPresent()) {
+            List<Task> tasklist = new ArrayList<>(taskRepository.getTasksPerList(id));
+            for (Task i : tasklist) {
+                i.setLists(null);
+                taskRepository.save(i);
+            }
+            optionalList.get().setTaskList(null);
+            listRepository.deleteById(id);
+            return new ResponseEntity<Long>(id, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
