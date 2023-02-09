@@ -23,7 +23,7 @@ import ch.zhaw.sml.iwi.meng.leantodo.entity.ProjectList;
 
 @RestController
 @CrossOrigin
-public class ListRestController {
+public class ListRestContoller {
 
     @Autowired
     private ListRepository listRepository;

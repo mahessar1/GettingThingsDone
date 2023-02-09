@@ -1,6 +1,7 @@
 package ch.zhaw.sml.iwi.meng.leantodo.boundary;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,7 @@ public class TaskRestController {
     public ResponseEntity<List<Task>> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
         if (!tasks.isEmpty()) {
+            tasks.sort(Comparator.comparing(Task::getDueDate));
             return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
         } else {
             return new ResponseEntity<List<Task>>(HttpStatus.NOT_FOUND);
@@ -56,6 +58,7 @@ public class TaskRestController {
     public ResponseEntity<List<Task>> getTasksInList(@PathVariable("id") Long id) {
         List<Task> projectTasks = taskRepository.getTasksPerList(id);
         if (!projectTasks.isEmpty()) {
+            projectTasks.sort(Comparator.comparing(Task::getDueDate));
             return new ResponseEntity<List<Task>>(projectTasks, HttpStatus.OK);
         } else {
             return new ResponseEntity<List<Task>>(HttpStatus.NOT_FOUND);
@@ -82,7 +85,6 @@ public class TaskRestController {
             } else {
                 result.setLists(null);
             }
-
 
             taskRepository.save(result);
             return new ResponseEntity<Task>(result, HttpStatus.OK);
