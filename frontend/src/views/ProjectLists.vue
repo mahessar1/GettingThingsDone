@@ -37,7 +37,7 @@
           </ion-button
         >
         <ion-button fill="clear" >Edit Project
-          <ion-icon slot="end" :icon="create"></ion-icon>
+          <ion-icon slot="end" :icon="pencil"></ion-icon>
         </ion-button>
         <ion-button fill="clear" color="danger" @click="presentAlert"
           >Delete Project
@@ -65,7 +65,7 @@ import {
   IonIcon,
   alertController
 } from "@ionic/vue";
-import { addCircle, eye, create, trash, checkmarkCircle } from "ionicons/icons";
+import { addCircle, eye, pencil, trash, checkmarkCircle } from "ionicons/icons";
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
