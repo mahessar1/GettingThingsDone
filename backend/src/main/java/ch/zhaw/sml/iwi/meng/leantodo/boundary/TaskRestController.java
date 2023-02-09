@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -75,15 +75,16 @@ public class TaskRestController {
             result.setCategory(taskModel.getCategory());
             result.setDueDate(taskModel.getDueDate());
 
-            if(!(taskModel.getListId() == null)) {
-            Optional<Lists> lists = listRepository.findById(taskModel.getListId());
-            if (lists.isPresent()) {
-                result.setLists(lists.get());
-                lists.get().addTask(result);
-            }} else {
+            if (!(taskModel.getListId() == null)) {
+                Optional<Lists> lists = listRepository.findById(taskModel.getListId());
+                if (lists.isPresent()) {
+                    result.setLists(lists.get());
+                    lists.get().addTask(result);
+                }
+            } else {
                 result.setLists(null);
             }
-        
+
             taskRepository.save(result);
             return new ResponseEntity<Task>(result, HttpStatus.OK);
         } catch (Exception e) {
@@ -99,6 +100,24 @@ public class TaskRestController {
             return new ResponseEntity<Long>(id, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("api/tasks/{id}")
+    public ResponseEntity<Task> updateTask(@PathVariable("id") Long id, @RequestBody Task task) {
+        Optional<Task> updateTask = taskRepository.findById(id);
+        if (updateTask.isPresent()) {
+            updateTask.get().setTitle(task.getTitle());
+            updateTask.get().setDescription(task.getDescription());
+            updateTask.get().setCreated(LocalDateTime.now());
+            updateTask.get().setStatus(task.getStatus());
+            updateTask.get().setCategory(task.getCategory());
+            updateTask.get().setDueDate(task.getDueDate());
+            updateTask.get().setLists(task.getLists());
+            taskRepository.save(updateTask.get());
+            return new ResponseEntity<Task>(updateTask.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
         }
     }
 }
