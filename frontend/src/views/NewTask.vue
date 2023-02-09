@@ -100,7 +100,7 @@ if(chosenList.value === "Unassigned") {
 const taskObject = ref<Task>({
   "title": tTitle,
   "description": tDescription,
-  "dueDate": tDueDate.value.substring(0, tDueDate.value.indexOf("+")),
+  "dueDate": tDueDate,
   "status": tStatus,
   "listId": tlistId
 });
