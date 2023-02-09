@@ -1,6 +1,5 @@
 package ch.zhaw.sml.iwi.meng.leantodo.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -9,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
@@ -28,6 +27,6 @@ public class Task {
     private LocalDateTime dueDate;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonIgnoreProperties("taskList")
     private Lists lists;
 }
