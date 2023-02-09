@@ -4,7 +4,11 @@
       <ion-toolbar>
         <ion-title>Projects</ion-title>
         <ion-buttons slot="end">
-          <ion-button fill="solid" color="primary" router-link="/tabs/newproject">
+          <ion-button
+            fill="solid"
+            color="primary"
+            router-link="/tabs/newproject"
+          >
             Add new Project
             <ion-icon slot="end" :icon="addCircle"></ion-icon>
           </ion-button>
@@ -17,33 +21,40 @@
           <ion-title size="large">Projects</ion-title>
         </ion-toolbar>
       </ion-header>
-    
+
       <ion-card v-for="project in projects" v-bind:key="project">
         <ion-card-header>
           <ion-card-title
-            >{{ project.title}}
-            <ion-button fill="solid" color="success" size="small" style="float: right">
+            >{{ project.title }}
+            <ion-button
+              fill="solid"
+              color="success"
+              size="small"
+              style="float: right"
+            >
               Finish Project
               <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
             </ion-button>
           </ion-card-title>
         </ion-card-header>
 
-        <ion-card-content> {{project.description}} </ion-card-content>
+        <ion-card-content> {{ project.description }} </ion-card-content>
 
         <ion-button fill="clear" router-link="/tabs/projecttask"
           >View Tasks
           <ion-icon slot="end" :icon="eye"></ion-icon>
-          </ion-button
-        >
-        <ion-button fill="clear" >Edit Project
+        </ion-button>
+        <ion-button fill="clear"
+          >Edit Project
           <ion-icon slot="end" :icon="pencil"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" color="danger" @click="presentAlert(project.id)"
+        <ion-button
+          fill="clear"
+          color="danger"
+          @click="presentAlert(project.id)"
           >Delete Project
           <ion-icon slot="end" :icon="trash"></ion-icon>
-          </ion-button
-        >
+        </ion-button>
         <p>{{ handlerMessage }}</p>
         <p>{{ roleMessage }}</p>
       </ion-card>
@@ -63,17 +74,15 @@ import {
   IonFab,
   IonFabButton,
   IonIcon,
-  alertController
+  alertController,
 } from "@ionic/vue";
 import { addCircle, eye, pencil, trash, checkmarkCircle } from "ionicons/icons";
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
-
+import axios from "axios";
+import { onMounted, onUpdated, ref } from "vue";
 
 const handlerMessage = ref("");
 const roleMessage = ref("");
 const projects = ref<any>([]);
-
 
 const presentAlert = async (id) => {
   const alert = await alertController.create({
@@ -90,19 +99,14 @@ const presentAlert = async (id) => {
         text: "Yes",
         role: "confirm",
         handler: () => {
-          handlerMessage.value = "Project deleted"+id;
-          axios.delete('http://localhost:8080/api/lists/'+id)
+          axios.delete("http://localhost:8080/api/lists/projectlist/" + id);
+          location.reload();
         },
       },
     ],
-
-
   });
 
   await alert.present();
-
-  const { role } = await alert.onDidDismiss();
-  roleMessage.value = `Dismissed with role: ${role}`;
 };
 
 /*async function deleteProject() {
@@ -116,18 +120,21 @@ const presentAlert = async (id) => {
 }*/
 
 async function getProjects() {
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-                "x-apikey": "5b2e750b0c346a20d90a5dda",
-            }
-        }
-        const response = await axios.get('http://localhost:8080/api/lists/projectlists', config);
-        projects.value = response.data;
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "x-apikey": "5b2e750b0c346a20d90a5dda",
+    },
+  };
+  const response = await axios.get(
+    "http://localhost:8080/api/lists/projectlists",
+    config
+  );
+  projects.value = response.data;
 }
-onMounted( () => {
+onMounted(() => {
   getProjects();
-} )
+});
 
 /*projects.value = [
   "Steuererklärung",
@@ -135,12 +142,10 @@ onMounted( () => {
   "Haustier adoptieren",
   "Heimkino",
 ];*/
-
 </script>
 
 <style scoped>
 ion-list-header {
   text-align: center;
 }
-
 </style>
