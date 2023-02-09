@@ -13,7 +13,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 
-import org.springframework.data.annotation.LastModifiedDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
@@ -26,11 +27,11 @@ public class Lists {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
-    @LastModifiedDate
     private LocalDateTime created;
+
     @OneToMany
+    @JsonIgnoreProperties("lists")
     private List<Task> taskList;
 
     public void addTask(Task task) {

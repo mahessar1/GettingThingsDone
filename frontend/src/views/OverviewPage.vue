@@ -22,28 +22,20 @@
         </ion-grid>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content :fullscreen="true" >
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Overview</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-list>
+      <ion-list v-for="task in tasks" v-bind:key="task">
         <ion-list-header lines="full">
-          <ion-label>13.02.2023</ion-label>
+          <ion-label>{{task.dueDate}}</ion-label>
         </ion-list-header>
         <ion-item button :router-link="'/tabs/taskdetails'">
-          <ion-label>FSWD Projekt abschliessen</ion-label>
+          <ion-label>{{task.title}}</ion-label>
         </ion-item>
-        <ion-item>
-          <ion-label>Git-Link einreichen</ion-label>
-        </ion-item>
-        <ion-list-header lines="full">
-          <ion-label>14.02.2023</ion-label>
-        </ion-list-header>
-        <ion-item button>
-          <ion-label>Leben geniessen</ion-label>
-        </ion-item>
+        
       </ion-list>
     </ion-content>
     <ion-menu :type="menuType" content-id="main-content">
@@ -77,8 +69,12 @@ import {
 } from "@ionic/vue";
 import { ref } from "vue";
 import { addCircle } from "ionicons/icons";
+import { useTasks } from "../composables/useTasks" 
 
 const menuType = ref("overlay");
+
+const { tasks, getTasks } = useTasks();
+
 </script>
 
 <style>
