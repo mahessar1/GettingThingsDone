@@ -1,6 +1,5 @@
 package ch.zhaw.sml.iwi.meng.leantodo.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

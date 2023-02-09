@@ -1,6 +1,6 @@
 package ch.zhaw.sml.iwi.meng.leantodo.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -14,6 +14,6 @@ public class ProjectList extends Lists{
 
     private String description;
     private int priority;
-    private LocalDate due;
+    private LocalDateTime due;
     private int status;
 }
