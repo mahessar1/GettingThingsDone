@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -17,15 +19,16 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
     private String description;
     private LocalDateTime created;
-    private String status;
+    private Integer status;
     private String category;
     private LocalDate dueDate;
+
     @ManyToOne
+    @JsonIgnore
     private Lists lists;
-    
-   
 
 }
