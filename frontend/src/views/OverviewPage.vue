@@ -22,21 +22,22 @@
         </ion-grid>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true" >
+    <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Overview</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-list v-for="task in tasks" v-bind:key="task">
+      
+      <ion-list v-for="date in dates" v-bind:key="date">
         <ion-list-header lines="full">
-          <ion-label>{{task.dueDate}}</ion-label>
+          <ion-label>{{date}}</ion-label>
         </ion-list-header>
-        <ion-item button :router-link="'/tabs/taskdetails'">
-          <ion-label>{{task.title}}</ion-label>
+        <ion-item v-for="time in times" v-bind:key="time" button :router-link="'/tabs/taskdetails'">
+          <ion-label>ttt</ion-label>
         </ion-item>
-        
       </ion-list>
+      <ion-button v-on:click="collectDates">Get Tasks</ion-button>
     </ion-content>
     <ion-menu :type="menuType" content-id="main-content">
       <ion-content class="ion-padding">
@@ -54,6 +55,12 @@
 
 <script setup lang="ts">
 import {
+  IonCol,
+  IonButton,
+  IonRow,
+  IonMenu,
+  IonGrid,
+  IonIcon,
   IonMenuToggle,
   IonMenuButton,
   IonItem,
@@ -67,14 +74,37 @@ import {
   IonContent,
   IonButtons,
 } from "@ionic/vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { addCircle } from "ionicons/icons";
-import { useTasks } from "../composables/useTasks" 
+import { useTasks } from "../composables/useTasks";
 
 const menuType = ref("overlay");
+const { tasks, getTasks } = useTasks(); 
 
-const { tasks, getTasks } = useTasks();
+const dates = ref([]);
 
+  
+  const times = ref([]);
+ function collectDates() {
+  let i;
+  const localDateTimes = [];
+  for (i = 0; i < tasks.value.length; i++) {
+    localDateTimes.push(tasks.value[i].dueDate);
+    if (
+      !(dates.value.includes(localDateTimes[i].substring(0, localDateTimes[i].indexOf("T"))))
+      )
+     {
+      dates.value.push( localDateTimes[i].substring(0, localDateTimes[i].indexOf("T")));
+    }
+    times.value.push(localDateTimes[i].substring(11));
+  }
+  console.log(dates, times)
+  
+}
+
+onMounted(() => {
+        collectDates();
+    })
 </script>
 
 <style>
