@@ -22,19 +22,19 @@
         </ion-grid>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content  :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Overview</ion-title>
         </ion-toolbar>
       </ion-header>
-      
+
       <ion-list v-for="date in dates" v-bind:key="date">
         <ion-list-header lines="full">
-          <ion-label>{{date}}</ion-label>
+          <ion-label >{{ date }}</ion-label>
         </ion-list-header>
-        <ion-item v-for="time in times" v-bind:key="time" button :router-link="'/tabs/taskdetails'">
-          <ion-label>ttt</ion-label>
+        <ion-item v-for="task in tasks" v-bind:key="task"  button :router-link="'/tabs/taskdetails'">
+          <ion-label v-for="time in times" v-bind:key="time">{{ task.title }}</ion-label>
         </ion-item>
       </ion-list>
       <ion-button v-on:click="collectDates">Get Tasks</ion-button>
@@ -79,32 +79,34 @@ import { addCircle } from "ionicons/icons";
 import { useTasks } from "../composables/useTasks";
 
 const menuType = ref("overlay");
-const { tasks, getTasks } = useTasks(); 
+const { tasks, getTasks } = useTasks();
 
 const dates = ref([]);
 
-  
-  const times = ref([]);
- function collectDates() {
+const times = ref([]);
+function collectDates() {
   let i;
   const localDateTimes = [];
   for (i = 0; i < tasks.value.length; i++) {
     localDateTimes.push(tasks.value[i].dueDate);
     if (
-      !(dates.value.includes(localDateTimes[i].substring(0, localDateTimes[i].indexOf("T"))))
+      !dates.value.includes(
+        localDateTimes[i].substring(0, localDateTimes[i].indexOf("T"))
       )
-     {
-      dates.value.push( localDateTimes[i].substring(0, localDateTimes[i].indexOf("T")));
+    ) {
+      dates.value.push(
+        localDateTimes[i].substring(0, localDateTimes[i].indexOf("T"))
+      );
     }
-    times.value.push(localDateTimes[i].substring(11));
+    times.value.push({"time": localDateTimes[i].substring(11),
+                      "taskId": tasks.value[i].id});
   }
-  console.log(dates, times)
-  
+  console.log(dates, times,tasks);
 }
 
 onMounted(() => {
-        collectDates();
-    })
+  collectDates();
+});
 </script>
 
 <style>

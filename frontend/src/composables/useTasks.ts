@@ -24,7 +24,7 @@ export function useTasks() {
         getTasks();
     })
 
-    const projectTasks = ref<Task[]>([]);
+   /* const projectTasks = ref<Task[]>([]);
 
     async function getProjectTasks() {
 
@@ -43,9 +43,9 @@ export function useTasks() {
     onMounted(() => {
         getProjectTasks();
     })
+*/
 
-
-    return { tasks, getTasks, projectTasks, getProjectTasks }
+    return { tasks, getTasks }
 
    
 }
