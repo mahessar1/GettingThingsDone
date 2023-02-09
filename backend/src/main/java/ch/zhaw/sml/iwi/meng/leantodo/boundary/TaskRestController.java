@@ -75,7 +75,6 @@ public class TaskRestController {
             result.setDescription(taskModel.getDescription());
             result.setCreated(LocalDateTime.now());
             result.setStatus(taskModel.getStatus());
-            result.setCategory(taskModel.getCategory());
             result.setDueDate(taskModel.getDueDate());
 
             if (!(taskModel.getListId() == null)) {
@@ -119,7 +118,6 @@ public class TaskRestController {
             updateTask.get().setTitle(taskModel.getTitle());
             updateTask.get().setDescription(taskModel.getDescription());
             updateTask.get().setStatus(taskModel.getStatus());
-            updateTask.get().setCategory(taskModel.getCategory());
             updateTask.get().setDueDate(taskModel.getDueDate());
 
             if (!(taskModel.getListId() == null)) {

@@ -1,10 +1,20 @@
 export interface Projectlist {
-    id: number;
+    id?: number;
+    listtype?: string;
     title: string;
-    created: Date;
-    tasklist: any;
+    created?: string;
+    tasklist?: any;
     description: string;
     priority: number;
-    due: Date;
+    due: string;
     status: number;
+}
+
+export interface Actionlist {
+    id?: number;
+    title: string;
+    created: string;
+    tasklist: any;
+    iconname: string;
+    listtype?: string;
 }

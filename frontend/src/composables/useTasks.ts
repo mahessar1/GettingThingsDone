@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue';
 export function useTasks() {
 
     const tasks = ref<Task[]>([]);
+    const postedTask = ref<Task>();
 
    async function getTasks() {
         const config = {
@@ -18,7 +19,16 @@ export function useTasks() {
         tasks.value = response.data;
     } 
 
-         
+    async function createTask(task: Task) {
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        const response = await axios.post('http://localhost:8080/api/tasks', task, config);
+        postedTask.value = response.data;
+    }
 
     onMounted(() => {
         getTasks();
@@ -45,7 +55,7 @@ export function useTasks() {
     })
 */
 
-    return { tasks, getTasks }
+    return { tasks, getTasks, createTask, postedTask }
 
    
 }

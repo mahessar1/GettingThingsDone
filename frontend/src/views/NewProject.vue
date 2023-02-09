@@ -47,7 +47,25 @@ import {
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { ref } from "vue";
+import { Projectlist } from "@/model/projectlist";
 
 const lists = ref<any>([]);
 lists.value = ["Unassigned", "Action", "Project"];
+
+
+
+const pTitle = ref<string>("");
+const pDescription = ref<string>("");
+const pPriority = ref<number>(0);
+const pDue = ref<string>("");
+const pStatus = ref<number>(0);
+
+const projectlistObject = ref<Projectlist>({
+  "listtype": "Projectlist",
+  "title": pTitle.value,
+  "description": pDescription.value,
+  "priority": pPriority.value,
+  "due": pDue.value,
+  "status": pStatus.value
+});
 </script>

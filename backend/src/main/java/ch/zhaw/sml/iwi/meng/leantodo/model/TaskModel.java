@@ -10,7 +10,6 @@ public class TaskModel {
     private String title;
     private String description;
     private Integer status;
-    private String category;
     private LocalDateTime dueDate;
     private Long listId;
     
