@@ -39,7 +39,7 @@
         <ion-button fill="clear" >Edit Project
           <ion-icon slot="end" :icon="pencil"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" color="danger" @click="presentAlert"
+        <ion-button fill="clear" color="danger" @click="presentAlert(project.id)"
           >Delete Project
           <ion-icon slot="end" :icon="trash"></ion-icon>
           </ion-button
@@ -75,7 +75,7 @@ const roleMessage = ref("");
 const projects = ref<any>([]);
 
 
-const presentAlert = async () => {
+const presentAlert = async (id) => {
   const alert = await alertController.create({
     header: "Are you sure? All assigned task will be deleted",
     buttons: [
@@ -90,10 +90,13 @@ const presentAlert = async () => {
         text: "Yes",
         role: "confirm",
         handler: () => {
-          handlerMessage.value = "Project deleted";
+          handlerMessage.value = "Project deleted"+id;
+          axios.delete('http://localhost:8080/api/lists/'+id)
         },
       },
     ],
+
+
   });
 
   await alert.present();
@@ -102,6 +105,15 @@ const presentAlert = async () => {
   roleMessage.value = `Dismissed with role: ${role}`;
 };
 
+/*async function deleteProject() {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                "x-apikey": "5b2e750b0c346a20d90a5dda",
+            }
+        }
+        const response = await axios.delete('http://localhost:8080/api/lists/{id}', config);
+}*/
 
 async function getProjects() {
         const config = {
