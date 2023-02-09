@@ -16,7 +16,7 @@
       </ion-item>
       <ion-item>
         <ion-label>Assign to list</ion-label>
-        <ion-select placeholder="Choose List" @ion-change="chosenList.value = JSON.stringify($event.detail.value)">
+        <ion-select placeholder="Choose List" @ionChange="chosenList.value = $event.detail.value">
           <ion-select-option value="Unassigned">Unassigned</ion-select-option>
           <ion-select-option value="Action">Action</ion-select-option>
           <ion-select-option value="Project">Project</ion-select-option>
@@ -28,6 +28,8 @@
         </ion-select>
       </ion-item>
       </ion-item>
+      
+      <p>{{ chosenList.value }}</p>
         <ion-item>
           <ion-label>Select due date</ion-label>
                       <ion-datetime-button datetime="datetime"></ion-datetime-button>
@@ -69,7 +71,7 @@ import { Projectlist } from "@/model/projectlist";
 const liststype = ref<any>([]);
 liststype.value = ["Unassigned", "Action", "Project"];
 
-const chosenList = ref<any>("");
+const chosenList = ref("test");
 
 const {projectlists, getProjectlists} = useProjectlists();
 

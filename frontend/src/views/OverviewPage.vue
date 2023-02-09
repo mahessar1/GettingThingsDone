@@ -81,6 +81,7 @@ import { useTasks } from "../composables/useTasks";
 const menuType = ref("overlay");
 const { tasks, getTasks } = useTasks();
 
+/*
 const dates = ref([]);
 
 const times = ref([]);
@@ -103,7 +104,34 @@ function collectDates() {
   }
   console.log(dates, times,tasks);
 }
+*/
 
+function collectDates() {
+  const taskPerDate = ref<any>([]);
+  const dates = ref<any>([]);
+  (tasks.value).forEach(task => {
+    if(!(dates.value.includes(task.dueDate.substring(0, task.dueDate.indexOf("T"))))) {
+      dates.value.push(task.dueDate.substring(0, task.dueDate.indexOf("T")));
+    }
+  });
+  console.log(dates.value);
+  
+  (dates.value).forEach(date => {
+      const taskList = ref<any>([]);
+      for (let i = 0; i < tasks.value.length; i++) {
+        if (tasks.value[i].dueDate.substring(0, tasks.value[i].dueDate.indexOf("T")) == date) {
+        taskList.value.push(tasks.value[i]);
+      }
+      }
+      
+      taskPerDate.value.push({
+          "date": date,
+          "tasklist": taskList
+        })
+      
+    });
+  console.log(taskPerDate.value);
+}
 onMounted(() => {
   collectDates();
 });
