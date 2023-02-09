@@ -10,5 +10,6 @@ import lombok.Data;
 @DiscriminatorValue("Actionlist")
 public class ActionList extends Lists {
 
+    private String iconName;
     
 }
