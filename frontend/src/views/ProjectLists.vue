@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Projects</ion-title>
-        <ion-buttons slot="primary">
+        <ion-buttons slot="end">
           <ion-button fill="solid" color="primary">
             Add new Project
             <ion-icon slot="end" :icon="addCircle"></ion-icon>
@@ -17,6 +17,7 @@
           <ion-title size="large">Projects</ion-title>
         </ion-toolbar>
       </ion-header>
+    
       <ion-card v-for="project in projects" v-bind:key="project">
         <ion-card-header>
           <ion-card-title
@@ -56,7 +57,7 @@ import {
   IonFab,
   IonFabButton,
   IonIcon,
-  alertController,
+  alertController
 } from "@ionic/vue";
 import { ref } from "vue";
 import { addCircle, checkmarkCircle } from "ionicons/icons";

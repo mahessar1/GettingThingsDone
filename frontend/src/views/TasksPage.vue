@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Tasks</ion-title>
-        <ion-buttons slot="primary">
+        <ion-buttons slot="end">
           <ion-button fill="solid" color="primary" router-link="/tabs/newtask">
             Add new Task
             <ion-icon slot="end" :icon="addCircle"></ion-icon>
