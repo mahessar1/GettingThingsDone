@@ -69,7 +69,7 @@ const projects = ref<any>([]);
 
 const presentAlert = async () => {
   const alert = await alertController.create({
-    header: "Are you sure?",
+    header: "Are you sure? All assigned task will be deleted",
     buttons: [
       {
         text: "No",
@@ -102,7 +102,7 @@ async function getProjects() {
                 "x-apikey": "5b2e750b0c346a20d90a5dda",
             }
         }
-        const response = await axios.get('http://localhost:8080/api/lists', config);
+        const response = await axios.get('http://localhost:8080/api/lists/projectlists', config);
         projects.value = response.data;
 }
 onMounted( () => {
