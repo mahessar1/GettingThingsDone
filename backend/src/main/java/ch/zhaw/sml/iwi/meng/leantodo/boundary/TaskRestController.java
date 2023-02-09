@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -75,15 +74,14 @@ public class TaskRestController {
             result.setCategory(taskModel.getCategory());
             result.setDueDate(taskModel.getDueDate());
 
-            if(!(taskModel.getListId() == null)) {
-            Optional<Lists> lists = listRepository.findById(taskModel.getListId());
-            if (lists.isPresent()) {
-                result.setLists(lists.get());
-                lists.get().addTask(result);
-            }} else {
+            if (!(taskModel.getListId() == null)) {
+                Lists lists = listRepository.findById(taskModel.getListId()).get();
+                result.setLists(lists);
+                lists.addTask(result);
+            } else {
                 result.setLists(null);
             }
-        
+
             taskRepository.save(result);
             return new ResponseEntity<Task>(result, HttpStatus.OK);
         } catch (Exception e) {
