@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -105,6 +106,18 @@ public class ListRestController {
             projectList.setCreated(result.getCreated());
             listRepository.save(projectList);
             return new ResponseEntity<Lists>(result, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping(path = "api/lists/{id}")
+    public ResponseEntity<Lists> deleteList(@PathVariable Long id) {
+        Optional<Lists> optionalList = listRepository.findById(id);
+
+        if (optionalList.isPresent()) {
+            listRepository.delete(optionalList.get());
+            return new ResponseEntity<Lists>(optionalList.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -103,16 +103,23 @@ public class TaskRestController {
     }
 
     @PutMapping("api/tasks/{id}")
-    public ResponseEntity<Task> updateTask(@PathVariable("id") Long id, @RequestBody Task task) {
+    public ResponseEntity<Task> updateTask(@PathVariable("id") Long id, @RequestBody TaskModel taskModel) {
         Optional<Task> updateTask = taskRepository.findById(id);
         if (updateTask.isPresent()) {
-            updateTask.get().setTitle(task.getTitle());
-            updateTask.get().setDescription(task.getDescription());
-            updateTask.get().setCreated(LocalDateTime.now());
-            updateTask.get().setStatus(task.getStatus());
-            updateTask.get().setCategory(task.getCategory());
-            updateTask.get().setDueDate(task.getDueDate());
-            updateTask.get().setLists(task.getLists());
+            updateTask.get().setTitle(taskModel.getTitle());
+            updateTask.get().setDescription(taskModel.getDescription());
+            updateTask.get().setStatus(taskModel.getStatus());
+            updateTask.get().setCategory(taskModel.getCategory());
+            updateTask.get().setDueDate(taskModel.getDueDate());
+
+            if (!(taskModel.getListId() == null)) {
+                Lists lists = listRepository.findById(taskModel.getListId()).get();
+                updateTask.get().setLists(lists);
+                lists.addTask(updateTask.get());
+            } else {
+                updateTask.get().setLists(null);
+            }
+
             taskRepository.save(updateTask.get());
             return new ResponseEntity<Task>(updateTask.get(), HttpStatus.OK);
         } else {
