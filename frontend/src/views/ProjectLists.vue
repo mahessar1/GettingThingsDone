@@ -99,7 +99,7 @@ const presentAlert = async (id) => {
         text: "Yes",
         role: "confirm",
         handler: () => {
-          axios.delete("http://localhost:8080/api/lists/projectlist/" + id);
+          axios.delete("http://localhost:8080/api/lists/projectlists/" + id);
           location.reload();
         },
       },
