@@ -3,6 +3,7 @@ package ch.zhaw.sml.iwi.meng.leantodo.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -30,7 +31,7 @@ public class Lists {
     private String title;
     private LocalDateTime created;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("lists")
     private List<Task> taskList;
 
