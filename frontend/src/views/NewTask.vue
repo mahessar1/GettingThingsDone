@@ -8,7 +8,7 @@
     <ion-list>
       <ion-item>
         <ion-label>Task Name</ion-label>
-        <ion-input placeholder="Enter task title" v-model="tTitle"></ion-input>
+        <ion-input v-model="tTitle" placeholder="Enter task title"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Task Description</ion-label>
@@ -25,13 +25,13 @@
       <ion-item v-if="chosenList === 'Project'">
         <ion-label>Select Projectlist</ion-label>
         <ion-select placeholder="Choose Projectlist" @ionChange="tlistId = $event.detail.value">
-          <ion-select-option v-for="projectlist in projectlists" value="{{ projectlist.id }}" :key="projectlist.id">{{ projectlist.title }}</ion-select-option>
+          <ion-select-option v-for="projectlist in projectlists" :value="projectlist.id" :key="projectlist.id">{{ projectlist.title }}</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item v-if="chosenList === 'Action'">
         <ion-label>Select Actionlist</ion-label>
         <ion-select placeholder="Choose Actionlist" @ionChange="tlistId = $event.detail.value">
-          <ion-select-option v-for="actionlist in actionlists" value="{{ actionlist.id }}" :key="actionlist.id">{{ actionlist.title }}</ion-select-option>
+          <ion-select-option v-for="actionlist in actionlists" :value="actionlist.id" :key="actionlist.id">{{ actionlist.title }}</ion-select-option>
         </ion-select>
       </ion-item>
         <ion-item>
@@ -55,11 +55,11 @@
 <script setup lang="ts">
 import {
   IonToolbar,
+  IonInput,
   IonDatetimeButton,
   IonModal,
   IonTitle,
   IonPage,
-  IonInput,
   IonHeader,
   IonDatetime,
   IonItem,
@@ -87,10 +87,10 @@ const{actionlists, getActionlists} = useActionlists();
 const {postedTask, createTask} = useTasks();
 
 
-const tTitle = ref<string>("");
-const tDescription = ref<string>("");
-const tDueDate = ref<string>("");
-const tStatus = ref<number>(0);
+const tTitle = ref<any>("");
+const tDescription = ref<any>("");
+const tDueDate = ref<any>("");
+const tStatus = ref<any>(0);
 const tlistId = ref<any>(null);
 
 if(chosenList.value === "Unassigned") {
@@ -98,10 +98,10 @@ if(chosenList.value === "Unassigned") {
 }
 
 const taskObject = ref<Task>({
-  "title": tTitle.value,
-  "description": tDescription.value,
-  "dueDate": tDueDate.value,
-  "status": tStatus.value,
-  "listId": tlistId.value
+  "title": tTitle,
+  "description": tDescription,
+  "dueDate": tDueDate.value.substring(0, tDueDate.value.indexOf("+")),
+  "status": tStatus,
+  "listId": tlistId
 });
 </script>
