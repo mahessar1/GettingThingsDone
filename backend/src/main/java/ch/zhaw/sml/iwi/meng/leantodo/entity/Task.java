@@ -25,10 +25,9 @@ public class Task {
     private LocalDateTime created;
     private Integer status;
     private String category;
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
 
     @ManyToOne
     @JsonIgnore
     private Lists lists;
-
 }

@@ -1,11 +1,11 @@
 package ch.zhaw.sml.iwi.meng.leantodo.boundary;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +37,7 @@ public class TaskRestController {
     public ResponseEntity<List<Task>> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
         if (!tasks.isEmpty()) {
+            tasks.sort(Comparator.comparing(Task::getDueDate));
             return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
         } else {
             return new ResponseEntity<List<Task>>(HttpStatus.NOT_FOUND);
@@ -56,6 +58,7 @@ public class TaskRestController {
     public ResponseEntity<List<Task>> getTasksInList(@PathVariable("id") Long id) {
         List<Task> projectTasks = taskRepository.getTasksPerList(id);
         if (!projectTasks.isEmpty()) {
+            projectTasks.sort(Comparator.comparing(Task::getDueDate));
             return new ResponseEntity<List<Task>>(projectTasks, HttpStatus.OK);
         } else {
             return new ResponseEntity<List<Task>>(HttpStatus.NOT_FOUND);
@@ -75,15 +78,14 @@ public class TaskRestController {
             result.setCategory(taskModel.getCategory());
             result.setDueDate(taskModel.getDueDate());
 
-            if(!(taskModel.getListId() == null)) {
-            Optional<Lists> lists = listRepository.findById(taskModel.getListId());
-            if (lists.isPresent()) {
-                result.setLists(lists.get());
-                lists.get().addTask(result);
-            }} else {
+            if (!(taskModel.getListId() == null)) {
+                Lists lists = listRepository.findById(taskModel.getListId()).get();
+                result.setLists(lists);
+                lists.addTask(result);
+            } else {
                 result.setLists(null);
             }
-        
+
             taskRepository.save(result);
             return new ResponseEntity<Task>(result, HttpStatus.OK);
         } catch (Exception e) {
@@ -99,6 +101,31 @@ public class TaskRestController {
             return new ResponseEntity<Long>(id, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("api/tasks/{id}")
+    public ResponseEntity<Task> updateTask(@PathVariable("id") Long id, @RequestBody TaskModel taskModel) {
+        Optional<Task> updateTask = taskRepository.findById(id);
+        if (updateTask.isPresent()) {
+            updateTask.get().setTitle(taskModel.getTitle());
+            updateTask.get().setDescription(taskModel.getDescription());
+            updateTask.get().setStatus(taskModel.getStatus());
+            updateTask.get().setCategory(taskModel.getCategory());
+            updateTask.get().setDueDate(taskModel.getDueDate());
+
+            if (!(taskModel.getListId() == null)) {
+                Lists lists = listRepository.findById(taskModel.getListId()).get();
+                updateTask.get().setLists(lists);
+                lists.addTask(updateTask.get());
+            } else {
+                updateTask.get().setLists(null);
+            }
+
+            taskRepository.save(updateTask.get());
+            return new ResponseEntity<Task>(updateTask.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
         }
     }
 }

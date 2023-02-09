@@ -1,6 +1,6 @@
 package ch.zhaw.sml.iwi.meng.leantodo.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ public class TaskModel {
     private String description;
     private Integer status;
     private String category;
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
     private Long listId;
     
 }
