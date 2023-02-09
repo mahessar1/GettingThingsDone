@@ -21,7 +21,7 @@
       <ion-card v-for="project in projects" v-bind:key="project">
         <ion-card-header>
           <ion-card-title
-            >{{ project }}
+            >{{ project.title}}
             <ion-button fill="solid" color="success" size="small" style="float: right">
               Finish Project
               <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
@@ -29,7 +29,7 @@
           </ion-card-title>
         </ion-card-header>
 
-        <ion-card-content> Project Description </ion-card-content>
+        <ion-card-content> {{project.description}} </ion-card-content>
 
         <ion-button fill="clear" router-link="/tabs/taskdetails"
           >View Tasks</ion-button
@@ -59,11 +59,13 @@ import {
   IonIcon,
   alertController
 } from "@ionic/vue";
-import { ref } from "vue";
 import { addCircle, checkmarkCircle } from "ionicons/icons";
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
 
 const handlerMessage = ref("");
 const roleMessage = ref("");
+const projects = ref<any>([]);
 
 const presentAlert = async () => {
   const alert = await alertController.create({
@@ -92,13 +94,28 @@ const presentAlert = async () => {
   roleMessage.value = `Dismissed with role: ${role}`;
 };
 
-const projects = ref<any>([]);
-projects.value = [
+
+async function getProjects() {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                "x-apikey": "5b2e750b0c346a20d90a5dda",
+            }
+        }
+        const response = await axios.get('http://localhost:8080/api/lists', config);
+        projects.value = response.data;
+}
+onMounted( () => {
+  getProjects();
+} )
+
+/*projects.value = [
   "Steuererklärung",
   "Hauskauf",
   "Haustier adoptieren",
   "Heimkino",
-];
+];*/
+
 </script>
 
 <style scoped>

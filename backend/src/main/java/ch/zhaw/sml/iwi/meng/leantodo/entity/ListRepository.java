@@ -16,6 +16,6 @@ public interface ListRepository extends JpaRepository<Lists, Long> {
     public List<Lists> findAllActionList();
 
     
-    public Lists getListFromTask();
+    //public Lists getListFromTask();
 
 }
