@@ -23,7 +23,28 @@ export function useTasks() {
         getTasks();
     })
 
-    return { tasks, getTasks }
+    const projectTasks = ref<Task[]>([]);
+
+    async function getProjectTasks() {
+
+        
+         const config = {
+             headers: {
+                 "Content-Type": "application/json",
+                 "x-apikey": "5b2e750b0c346a20d90a5dda",
+             }
+         }
+        const response = await axios.get('http://localhost:8080/api/lists/{id}/tasks',config);
+        projectTasks.value = response.data;  
+         
+
+    }
+    onMounted(() => {
+        getProjectTasks();
+    })
+
+
+    return { tasks, getTasks, projectTasks, getProjectTasks }
 
    
 }

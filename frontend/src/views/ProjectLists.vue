@@ -31,7 +31,7 @@
 
         <ion-card-content> {{project.description}} </ion-card-content>
 
-        <ion-button fill="clear" router-link="/tabs/taskdetails"
+        <ion-button fill="clear" router-link="/tabs/projecttask"
           >View Tasks
           <ion-icon slot="end" :icon="eye"></ion-icon>
           </ion-button
@@ -69,9 +69,11 @@ import { addCircle, eye, pencil, trash, checkmarkCircle } from "ionicons/icons";
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
+
 const handlerMessage = ref("");
 const roleMessage = ref("");
 const projects = ref<any>([]);
+
 
 const presentAlert = async () => {
   const alert = await alertController.create({
