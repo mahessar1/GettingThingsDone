@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>Projects</ion-title>
         <ion-buttons slot="end">
-          <ion-button fill="solid" color="primary">
+          <ion-button fill="solid" color="primary" router-link="/tabs/newproject">
             Add new Project
             <ion-icon slot="end" :icon="addCircle"></ion-icon>
           </ion-button>
@@ -31,12 +31,18 @@
 
         <ion-card-content> {{project.description}} </ion-card-content>
 
-        <ion-button fill="clear" router-link="/tabs/taskdetails"
-          >View Tasks</ion-button
+        <ion-button fill="clear" router-link="/tabs/projecttask"
+          >View Tasks
+          <ion-icon slot="end" :icon="eye"></ion-icon>
+          </ion-button
         >
-        <ion-button fill="clear">Edit Project</ion-button>
+        <ion-button fill="clear" >Edit Project
+          <ion-icon slot="end" :icon="pencil"></ion-icon>
+        </ion-button>
         <ion-button fill="clear" color="danger" @click="presentAlert"
-          >Delete Project</ion-button
+          >Delete Project
+          <ion-icon slot="end" :icon="trash"></ion-icon>
+          </ion-button
         >
         <p>{{ handlerMessage }}</p>
         <p>{{ roleMessage }}</p>
@@ -59,13 +65,15 @@ import {
   IonIcon,
   alertController
 } from "@ionic/vue";
-import { addCircle, checkmarkCircle } from "ionicons/icons";
+import { addCircle, eye, pencil, trash, checkmarkCircle } from "ionicons/icons";
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+
 
 const handlerMessage = ref("");
 const roleMessage = ref("");
 const projects = ref<any>([]);
+
 
 const presentAlert = async () => {
   const alert = await alertController.create({
