@@ -1,20 +1,5 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Task Details</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Task Details</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content class="ion-padding">
-        <ion-button id="open-modal" expand="block">Open</ion-button>
-        <ion-modal
+<ion-modal
           ref="modal"
           trigger="open-modal"
           @willDismiss="onWillDismiss"
@@ -63,9 +48,6 @@
           
            
         </ion-modal>
-      </ion-content>
-    </ion-content>
-  </ion-page>
 </template>
 
 <script setup lang="ts">

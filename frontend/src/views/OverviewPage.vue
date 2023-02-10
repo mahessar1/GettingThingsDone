@@ -39,6 +39,7 @@
           <ion-button id="open-modal" expand="block">Details</ion-button>
           
         </ion-item>
+        
       </ion-list>
       <p v-if="show">
         <ion-button v-on:click="collectDates(), hidden()">Get Tasks</ion-button>
@@ -86,7 +87,7 @@ import {
 import { onMounted, onUpdated, ref } from "vue";
 import { addCircle } from "ionicons/icons";
 import { useTasks } from "../composables/useTasks";
-
+//import TaskDetails from "../components/TaskDetails.vue"
 
 
 const menuType = ref("overlay");
@@ -127,6 +128,7 @@ function collectDates() {
 }
 
 onMounted(() => {
+  getTasks();
   collectDates();
 
   
