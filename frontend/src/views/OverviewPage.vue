@@ -79,7 +79,7 @@ import {
   IonContent,
   IonButtons,
 } from "@ionic/vue";
-import { onMounted, ref } from "vue";
+import { onMounted, onUpdated, ref } from "vue";
 import { addCircle } from "ionicons/icons";
 import { useTasks } from "../composables/useTasks";
 
@@ -91,6 +91,7 @@ let show = true;
 function hidden() {
   show = false;
 }
+
 function collectDates() {
   
   (tasks.value).forEach(task => {
@@ -115,11 +116,20 @@ function collectDates() {
         })
       
     });
+    
   console.log(taskPerDate.value);
 }
+
 onMounted(() => {
   collectDates();
+
+  
 });
+onUpdated(() => {
+  taskPerDate.value = [];
+  collectDates();
+  
+})
 </script>
 
 <style>
