@@ -1,9 +1,9 @@
 export interface Task {
-    id: number;
+    id?: number;
     title: string;
     description: string;
-    created: Date;
+    created?: string;
     status: number;
-    category: string;
-    dueDate: Date;
+    dueDate: string;
+    listId?: any
 }

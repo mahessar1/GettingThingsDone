@@ -75,20 +75,22 @@ public class TaskRestController {
             result.setDescription(taskModel.getDescription());
             result.setCreated(LocalDateTime.now());
             result.setStatus(taskModel.getStatus());
-            result.setCategory(taskModel.getCategory());
             result.setDueDate(taskModel.getDueDate());
 
             if (!(taskModel.getListId() == null)) {
                 Lists lists = listRepository.findById(taskModel.getListId()).get();
                 result.setLists(lists);
+                taskRepository.save(result);
                 lists.addTask(result);
             } else {
                 result.setLists(null);
+                taskRepository.save(result);
             }
 
-            taskRepository.save(result);
+            
             return new ResponseEntity<Task>(result, HttpStatus.OK);
         } catch (Exception e) {
+            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -97,6 +99,11 @@ public class TaskRestController {
     public ResponseEntity<Long> deleteTask(@PathVariable("id") Long id) {
         Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
+            Optional<Lists> listTask = listRepository.findById(task.get().getId());
+            if(listTask.isPresent()) {
+                listTask.get().getTaskList().remove(task.get());
+                listRepository.save(listTask.get());
+            }
             taskRepository.deleteById(id);
             return new ResponseEntity<Long>(id, HttpStatus.OK);
         } else {
@@ -111,7 +118,6 @@ public class TaskRestController {
             updateTask.get().setTitle(taskModel.getTitle());
             updateTask.get().setDescription(taskModel.getDescription());
             updateTask.get().setStatus(taskModel.getStatus());
-            updateTask.get().setCategory(taskModel.getCategory());
             updateTask.get().setDueDate(taskModel.getDueDate());
 
             if (!(taskModel.getListId() == null)) {

@@ -23,7 +23,6 @@ public class Task {
     private String description;
     private LocalDateTime created;
     private Integer status;
-    private String category;
     private LocalDateTime dueDate;
 
     @ManyToOne
