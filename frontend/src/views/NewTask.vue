@@ -44,7 +44,7 @@
     </ion-list>
     <ion-item >
           <ion-buttons slot="end">
-          <ion-button fill="solid" color="primary">Cancel</ion-button>
+          <ion-button fill="solid" color="primary" @click="$router.go(-1)">Cancel</ion-button>
           <ion-button fill="solid" color="primary" @click="createTask(taskObject)">Save</ion-button>
           </ion-buttons>
           <p>{{ taskObject }}</p>
