@@ -38,7 +38,7 @@
           <ion-label>Select due date</ion-label>
                       <ion-datetime-button datetime="datetime"></ion-datetime-button>
         <ion-modal :keep-contents-mounted="true">
-    <ion-datetime @ionChange="realDueDate = tDueDate.split('+')[0]" displayFormat="YYYY-MM-DDTHH:mm:ss" id="datetime" v-model="tDueDate"></ion-datetime>
+    <ion-datetime @ionChange="realDueDate = tDueDate.split('+')[0]" id="datetime" v-model="tDueDate"></ion-datetime>
   </ion-modal>
         </ion-item>
     </ion-list>
