@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/OverviewPage.vue')
       },
       {
-        path: 'taskdetails',
+        path: 'taskdetails/:id',
         component: () => import('@/views/TaskDetails.vue')
       },
       {

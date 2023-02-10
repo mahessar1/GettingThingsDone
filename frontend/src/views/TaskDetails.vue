@@ -11,6 +11,7 @@
           <ion-title size="large">Task Details</ion-title>
         </ion-toolbar>
       </ion-header>
+      <ion-button></ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -27,4 +28,25 @@ import {
   IonTitle,
   IonContent,
 } from "@ionic/vue";
+import axios from "axios";
+import { onMounted, ref } from "vue";
+
+const taskDetails = ref<any>([]);
+
+async function getTaskDetails() {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "x-apikey": "5b2e750b0c346a20d90a5dda",
+    },
+  };
+  const response = await axios.get(
+    "http://localhost:8080/api/tasks/:id",
+    config
+  );
+  taskDetails.value = response.data;
+}
+onMounted(() => {
+  getTaskDetails();
+});
 </script>
