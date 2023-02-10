@@ -1,20 +1,16 @@
 <template>
 <ion-modal
           ref="modal"
-          trigger="open-modal"
+          :trigger="props.taskId"
           @willDismiss="onWillDismiss"
         >
           <ion-header>
             <ion-toolbar>
-              <ion-buttons slot="start">
-                <ion-button @click="cancel()">Cancel</ion-button>
+              <ion-buttons slot="end">
+                <ion-button @click="cancel()">Close</ion-button>
               </ion-buttons>
               <ion-title>{{taskDetails.title}}</ion-title>
-              <ion-buttons slot="end">
-                <ion-button :strong="true" @click="confirm()"
-                  >Confirm</ion-button
-                >
-              </ion-buttons>
+              
             </ion-toolbar>
           </ion-header>
           <ion-list>
@@ -68,12 +64,15 @@ import {
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import { OverlayEventDetail } from '@ionic/core/components';
 
 
 
 const taskDetails = ref<any>([]);
 const route = useRoute();
-const id = route.params.id;
+const props = defineProps({
+  taskId: Number
+});
 
 async function getTaskDetails() {
   const config = {
@@ -83,12 +82,22 @@ async function getTaskDetails() {
     },
   };
   const response = await axios.get(
-    "http://localhost:8080/api/tasks/" + id,
+    "http://localhost:8080/api/tasks/" + props.taskId,
     config
   );
   taskDetails.value = response.data;
   console.log(taskDetails);
 }
+
+function cancel() {
+        this.$refs.modal.$el.dismiss(null, 'cancel');
+}
+
+function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
+        if (ev.detail.role === 'confirm') {
+          this.message = `Hello, ${ev.detail.data}!`;
+        }
+      }
 onMounted(() => {
   getTaskDetails();
 });

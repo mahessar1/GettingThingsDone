@@ -33,17 +33,14 @@
         <ion-list-header  lines="full">
           <ion-label>{{tasks.date}}</ion-label>
         </ion-list-header>
-        <ion-item v-for="(task) in tasks.tasklist" v-bind:key="task" button :router-link="'/tabs/taskdetails/' + task.id">
+        <ion-item v-for="(task) in tasks.tasklist" v-bind:key="task" >
       
           <ion-label >{{"Due date: " + task.dueDate.substring(11) + "Uhr /////////// task title: " + task.title }}</ion-label>
-          <ion-button id="open-modal" expand="block">Details</ion-button>
-          
+          <ion-button :id="task.id" expand="block">Details</ion-button>
+          <task-details :taskId="task.id"></task-details>
         </ion-item>
         
       </ion-list>
-      <p v-if="show">
-        <ion-button v-on:click="collectDates(), hidden()">Get Tasks</ion-button>
-      </p>
     </ion-content>
     <ion-menu :type="menuType" content-id="main-content">
       <ion-content class="ion-padding">
@@ -87,57 +84,19 @@ import {
 import { onMounted, onUpdated, ref } from "vue";
 import { addCircle } from "ionicons/icons";
 import { useTasks } from "../composables/useTasks";
-//import TaskDetails from "../components/TaskDetails.vue"
+import TaskDetails from "../components/TaskDetails.vue"
 
 
 const menuType = ref("overlay");
-const { tasks, getTasks } = useTasks();
-const taskPerDate = ref<any>([]);
-  const dates = ref<any>([]);
-let show = true;
-function hidden() {
-  show = false;
-}
-
-function collectDates() {
-  
-  (tasks.value).forEach(task => {
-    if(!(dates.value.includes(task.dueDate.substring(0, task.dueDate.indexOf("T"))))) {
-      dates.value.push(task.dueDate.substring(0, task.dueDate.indexOf("T")));
-    }
-  });
-  console.log(dates.value);
-  
-  (dates.value).forEach(date => {
-      const taskList = ref<any>([]);
-      for (let i = 0; i < tasks.value.length; i++) {
-        if (tasks.value[i].dueDate.substring(0, tasks.value[i].dueDate.indexOf("T")) == date) {
-        taskList.value.push(tasks.value[i]);
-      }
-      }
-      
-      taskPerDate.value.push({
-          "date": date,
-          "tasklist": taskList
-
-        })
-      
-    });
-    
-  console.log(taskPerDate.value);
-}
-
-onMounted(() => {
-  getTasks();
-  collectDates();
-
-  
-});
+const { tasks, getTasks, collectDates, taskPerDate } = useTasks();
 onUpdated(() => {
-  taskPerDate.value = [];
   collectDates();
-  
 })
+
+window.onpopstate = function () {
+    location.reload();
+};
+
 </script>
 
 <style>
