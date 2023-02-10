@@ -34,7 +34,10 @@
           <ion-label>{{tasks.date}}</ion-label>
         </ion-list-header>
         <ion-item v-for="(task) in tasks.tasklist" v-bind:key="task" button :router-link="'/tabs/taskdetails/' + task.id">
+      
           <ion-label >{{"Due date: " + task.dueDate.substring(11) + "Uhr /////////// task title: " + task.title }}</ion-label>
+          <ion-button id="open-modal" expand="block">Details</ion-button>
+          
         </ion-item>
       </ion-list>
       <p v-if="show">
@@ -60,6 +63,7 @@
 <script setup lang="ts">
 import {
   IonBackButton,
+  IonModal,
   IonCol,
   IonButton,
   IonRow,
@@ -82,6 +86,8 @@ import {
 import { onMounted, onUpdated, ref } from "vue";
 import { addCircle } from "ionicons/icons";
 import { useTasks } from "../composables/useTasks";
+
+
 
 const menuType = ref("overlay");
 const { tasks, getTasks } = useTasks();
