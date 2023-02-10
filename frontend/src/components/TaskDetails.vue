@@ -2,7 +2,6 @@
 <ion-modal
           ref="modal"
           :trigger="props.taskId"
-          @willDismiss="onWillDismiss"
         >
           <ion-header>
             <ion-toolbar>
@@ -59,7 +58,7 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent,
+  IonContent
 } from "@ionic/vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
@@ -73,6 +72,7 @@ const route = useRoute();
 const props = defineProps({
   taskId: Number
 });
+const modal =ref(null);
 
 async function getTaskDetails() {
   const config = {
@@ -90,14 +90,9 @@ async function getTaskDetails() {
 }
 
 function cancel() {
-        this.$refs.modal.$el.dismiss(null, 'cancel');
+location.reload();
 }
 
-function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
-        if (ev.detail.role === 'confirm') {
-          this.message = `Hello, ${ev.detail.data}!`;
-        }
-      }
 onMounted(() => {
   getTaskDetails();
 });
