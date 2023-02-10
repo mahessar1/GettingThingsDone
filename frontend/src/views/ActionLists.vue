@@ -34,7 +34,7 @@
           </ion-card-title>
         </ion-card-header>
 
-        <ion-button fill="clear" router-link="/tabs/projecttask"
+        <ion-button fill="clear" :router-link="'/tabs/projecttask/' + actionlist.id" 
           >View Tasks
           <ion-icon slot="end" :icon="eye"></ion-icon>
         </ion-button>
