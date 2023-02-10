@@ -109,7 +109,6 @@ const presentAlert = async (id) => {
   await alert.present();
 };
 
-
 async function getProjects() {
   const config = {
     headers: {
