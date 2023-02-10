@@ -35,7 +35,7 @@
         </ion-list-header>
         <ion-item v-for="(task) in tasks.tasklist" v-bind:key="task" >
       
-          <ion-label >{{"Due date: " + task.dueDate.substring(11) + "Uhr /////////// task title: " + task.title }}</ion-label>
+          <ion-label >{{"Time: " + task.dueDate.substring(11) + " Uhr /////////// task title: " + task.title }}</ion-label>
           <ion-button :id="task.id" expand="block">Details</ion-button>
           <task-details :taskId="task.id"></task-details>
         </ion-item>
@@ -84,18 +84,23 @@ import {
 import { onMounted, onUpdated, ref } from "vue";
 import { addCircle } from "ionicons/icons";
 import { useTasks } from "../composables/useTasks";
-import TaskDetails from "../components/TaskDetails.vue"
+//import TaskDetails from "../components/TaskDetails.vue"
 
 
 const menuType = ref("overlay");
 const { tasks, getTasks, collectDates, taskPerDate } = useTasks();
+
+
+
 onUpdated(() => {
   collectDates();
+
 })
 
 window.onpopstate = function () {
     location.reload();
 };
+
 
 </script>
 

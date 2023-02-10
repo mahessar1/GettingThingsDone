@@ -82,6 +82,7 @@ export function useTasks() {
             
           });
           
+          
         console.log(taskPerDate.value);
       }
 
