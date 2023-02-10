@@ -67,7 +67,9 @@ import {
   IonList,
   IonSelectOption,
   IonSelect,
-  IonTextarea
+  IonTextarea,
+  IonButton,
+  IonButtons
 } from "@ionic/vue";
 import { defineComponent, onMounted } from "vue";
 import { ref } from "vue";
