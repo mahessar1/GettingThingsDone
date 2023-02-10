@@ -21,10 +21,6 @@ const routes: Array<RouteRecordRaw> = [
         redirect: '/tabs/overview'
       },
       {
-        path: 'tasks',
-        component: () => import('@/views/TasksPage.vue')
-      },
-      {
         path: 'projectlists',
         component: () => import('@/views/ProjectLists.vue')
       },
@@ -49,8 +45,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/NewTask.vue')
       },
       {
-        path: 'projecttask',
-        component: () => import('@/components/TaskDetails.vue')
+        path: 'projecttask/:id',
+        component: () => import('@/views/ListTasks.vue')
       }
     ]
   }

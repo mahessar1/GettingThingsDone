@@ -13,8 +13,9 @@
               </ion-page>
               <ion-menu-toggle>
                 <ion-button size="small" style="float: right">
-                  Add new task
                   <ion-icon slot="end" :icon="addCircle"></ion-icon>
+                  Add new task
+                  
                 </ion-button>
               </ion-menu-toggle>
             </ion-col>
@@ -22,24 +23,52 @@
         </ion-grid>
       </ion-toolbar>
     </ion-header>
-    <ion-content  :fullscreen="true">
+    <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Overview</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <ion-list v-for="(tasks) in taskPerDate" v-bind:key="tasks">
-        <ion-list-header  lines="full">
-          <ion-label>{{tasks.date}}</ion-label>
+      <ion-list v-for="tasks in taskPerDate" v-bind:key="tasks">
+        <ion-list-header lines="full">
+          <ion-label>{{ tasks.date }}</ion-label>
         </ion-list-header>
-        <ion-item v-for="(task) in tasks.tasklist" v-bind:key="task" >
-      
-          <ion-label >{{"Time: " + task.dueDate.substring(11) + " Uhr /////////// task title: " + task.title }}</ion-label>
-          <ion-button :id="task.id" expand="block">Details</ion-button>
-          <task-details :taskId="task.id"></task-details>
-        </ion-item>
-        
+<ion-card v-for="task in tasks.tasklist" v-bind:key="task">
+  <ion-card-header>
+    <ion-card-title>{{task.title}} <ion-button
+              fill="solid"
+              color="success"
+              size="small"
+              style="float: right"
+            >
+              Finish Task
+              <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
+            </ion-button></ion-card-title>
+    
+    <ion-card-subtitle>{{"Due time: " + task.dueDate.substring(11) + " Uhr"}}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-button fill="clear"  :id="task.id">
+      <task-details :taskId="task.id"></task-details>
+      <ion-icon slot="end" :icon="eye"></ion-icon>
+      View Task</ion-button>
+       <ion-button fill="clear" router-link="/tabs/"
+          >Edit Task
+          <ion-icon slot="end" :icon="pencil"></ion-icon>
+        </ion-button>
+        <ion-button
+          fill="clear"
+          color="danger"
+          @click="presentAlert(task.id)"
+          >Delete Task
+          <ion-icon slot="end" :icon="trash"></ion-icon>
+        </ion-button>
+        <p>{{ handlerMessage }}</p>
+        <p>{{ roleMessage }}</p>
+  </ion-card-content>
+</ion-card>
       </ion-list>
     </ion-content>
     <ion-menu :type="menuType" content-id="main-content">
@@ -48,9 +77,10 @@
           <ion-title>Create a task/project</ion-title>
         </ion-toolbar>
         <ion-button router-link="/tabs/newtask">Create new task</ion-button>
-        <ion-button router-link="/tabs/newproject">Creae new project</ion-button>
+        <ion-button router-link="/tabs/newproject"
+          >Create new project</ion-button
+        >
         <ion-menu-toggle>
-    
           <ion-button color="danger">Close the menu</ion-button>
         </ion-menu-toggle>
       </ion-content>
@@ -60,6 +90,11 @@
 
 <script setup lang="ts">
 import {
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonCardContent,
   IonBackButton,
   IonModal,
   IonCol,
@@ -80,28 +115,51 @@ import {
   IonTitle,
   IonContent,
   IonButtons,
+  alertController,
 } from "@ionic/vue";
 import { onMounted, onUpdated, ref } from "vue";
-import { addCircle } from "ionicons/icons";
+import { addCircle, eye, pencil, trash } from "ionicons/icons";
 import { useTasks } from "../composables/useTasks";
-//import TaskDetails from "../components/TaskDetails.vue"
+import axios from "axios";
+import TaskDetails from "../components/TaskDetails.vue"
 
 
 const menuType = ref("overlay");
 const { tasks, getTasks, collectDates, taskPerDate } = useTasks();
-
-
+const handlerMessage = ref("");
+const roleMessage = ref("");
 
 onUpdated(() => {
   collectDates();
-
-})
+});
 
 window.onpopstate = function () {
-    location.reload();
+  location.reload();
 };
 
 
+const presentAlert = async (id) => {
+  const alert = await alertController.create({
+    header: "Are you sure? All assigned task will be deleted",
+    buttons: [
+      {
+        text: "No",
+        role: "cancel",
+        handler: () => {
+          handlerMessage.value = "Alert canceled";
+        },
+      },
+      {
+        text: "Yes",
+        role: "confirm",
+        handler: () => {
+          axios.delete("http://localhost:8080/api/tasks/" + id);
+          location.reload();
+        },
+      },
+    ],
+  });
+}
 </script>
 
 <style>

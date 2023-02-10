@@ -85,6 +85,7 @@ export function useTasks() {
           
         console.log(taskPerDate.value);
       }
+      
 
     onMounted(() => {
         getTasks();

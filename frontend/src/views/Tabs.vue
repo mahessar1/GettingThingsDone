@@ -4,14 +4,10 @@
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="overview" href="/tabs/overview">
-          <ion-icon :icon="home" />
-          <ion-label>Overview</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="tasks" href="/tabs/tasks">
           <ion-icon :icon="flash" />
           <ion-label>Tasks</ion-label>
         </ion-tab-button>
+
           
         <ion-tab-button tab="projectlists" href="/tabs/projectlists">
           <ion-icon :icon="trailSign" />

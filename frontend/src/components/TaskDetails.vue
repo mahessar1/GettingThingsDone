@@ -1,48 +1,46 @@
 <template>
-<ion-modal
-          ref="modal"
-          :trigger="props.taskId"
-        >
-          <ion-header>
-            <ion-toolbar>
-              <ion-buttons slot="end">
-                <ion-button @click="cancel()">Close</ion-button>
-              </ion-buttons>
-              <ion-title>{{taskDetails.title}}</ion-title>
-              
-            </ion-toolbar>
-          </ion-header>
-          <ion-list>
-            <ion-item>
-              <ion-label >ID: </ion-label>
-             <ion-label >{{taskDetails.id}}</ion-label>
-             </ion-item>
-             <ion-item>
-              <ion-label >Created: </ion-label>
-             <ion-label >{{taskDetails.created.substring(0, taskDetails.created.indexOf("T")) + " " + taskDetails.created.substring(11) + " Uhr"}}</ion-label>
-             </ion-item>
-             <ion-item>
-              <ion-label >Description: </ion-label>
-             <ion-label >{{taskDetails.description}}</ion-label>
-             </ion-item>
-             <ion-item>
-              <ion-label >Due date: </ion-label>
-             <ion-label >{{taskDetails.dueDate.substring(0, taskDetails.dueDate.indexOf("T")) + " " + taskDetails.dueDate.substring(11) + " Uhr"}}</ion-label>
-             </ion-item>
-             <ion-item>
-              <ion-label >Status: </ion-label>
-             <ion-label >{{taskDetails.status}}</ion-label>
-             </ion-item>
-           
-             
-            
-            
-          </ion-list>
-            
-        
-          
-           
-        </ion-modal>
+  <ion-modal ref="modal" :trigger="props.taskId">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button @click="cancel()">Close</ion-button>
+        </ion-buttons>
+        <ion-title>{{ taskDetails.title }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-list>
+      <ion-item>
+        <ion-label>ID: </ion-label>
+        <ion-label>{{ taskDetails.id }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Created: </ion-label>
+        <ion-label>{{
+          taskDetails.created.substring(0, taskDetails.created.indexOf("T")) +
+          " " +
+          taskDetails.created.substring(11) +
+          " Uhr"
+        }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Description: </ion-label>
+        <ion-label>{{ taskDetails.description }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Due date: </ion-label>
+        <ion-label>{{
+          taskDetails.dueDate.substring(0, taskDetails.dueDate.indexOf("T")) +
+          " " +
+          taskDetails.dueDate.substring(11) +
+          " Uhr"
+        }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Status: </ion-label>
+        <ion-label>{{ taskDetails.status }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-modal>
 </template>
 
 <script setup lang="ts">
@@ -58,21 +56,19 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent
+  IonContent,
 } from "@ionic/vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { OverlayEventDetail } from '@ionic/core/components';
-
-
+import { OverlayEventDetail } from "@ionic/core/components";
 
 const taskDetails = ref<any>([]);
 const route = useRoute();
 const props = defineProps({
-  taskId: Number
+  taskId: Number,
 });
-const modal =ref(null);
+const modal = ref(null);
 
 async function getTaskDetails() {
   const config = {
@@ -90,11 +86,10 @@ async function getTaskDetails() {
 }
 
 function cancel() {
-location.reload();
+  location.reload();
 }
 
 onMounted(() => {
   getTaskDetails();
 });
-
 </script>

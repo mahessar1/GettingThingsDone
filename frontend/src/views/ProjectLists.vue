@@ -40,7 +40,7 @@
 
         <ion-card-content> {{ project.description }} </ion-card-content>
 
-        <ion-button fill="clear" router-link="/tabs/projecttask"
+        <ion-button fill="clear" :router-link="'/tabs/projecttask/' + project.id" 
           >View Tasks
           <ion-icon slot="end" :icon="eye"></ion-icon>
         </ion-button>
@@ -64,6 +64,12 @@
 
 <script setup lang="ts">
 import {
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonButtons,
+  
   IonPage,
   IonHeader,
   IonToolbar,
@@ -108,6 +114,7 @@ const presentAlert = async (id) => {
 
   await alert.present();
 };
+
 
 async function getProjects() {
   const config = {
