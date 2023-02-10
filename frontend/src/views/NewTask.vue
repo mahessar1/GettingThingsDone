@@ -38,13 +38,13 @@
           <ion-label>Select due date</ion-label>
                       <ion-datetime-button datetime="datetime"></ion-datetime-button>
         <ion-modal :keep-contents-mounted="true">
-    <ion-datetime id="datetime" v-model="tDueDate"></ion-datetime>
+    <ion-datetime @ionChange="realDueDate = tDueDate.split('+')[0]" id="datetime" v-model="tDueDate"></ion-datetime>
   </ion-modal>
         </ion-item>
     </ion-list>
     <ion-item >
           <ion-buttons slot="end">
-          <ion-button fill="solid" color="primary">Cancel</ion-button>
+          <ion-button fill="solid" color="primary" @click="$router.go(-1)">Cancel</ion-button>
           <ion-button fill="solid" color="primary" @click="createTask(taskObject)">Save</ion-button>
           </ion-buttons>
           <p>{{ taskObject }}</p>
@@ -90,8 +90,10 @@ const {postedTask, createTask} = useTasks();
 const tTitle = ref<any>("");
 const tDescription = ref<any>("");
 const tDueDate = ref<any>("");
-const tStatus = ref<any>(0);
+const tStatus = ref<any>(1);
 const tlistId = ref<any>(null);
+const realDueDate = ref<any>("");
+
 
 if(chosenList.value === "Unassigned") {
   tlistId.value = null;
@@ -100,8 +102,8 @@ if(chosenList.value === "Unassigned") {
 const taskObject = ref<Task>({
   "title": tTitle,
   "description": tDescription,
-  "dueDate": tDueDate,
   "status": tStatus,
+  "dueDate": realDueDate,
   "listId": tlistId
 });
 </script>
