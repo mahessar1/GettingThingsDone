@@ -109,15 +109,6 @@ const presentAlert = async (id) => {
   await alert.present();
 };
 
-/*async function deleteProject() {
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-                "x-apikey": "5b2e750b0c346a20d90a5dda",
-            }
-        }
-        const response = await axios.delete('http://localhost:8080/api/lists/{id}', config);
-}*/
 
 async function getProjects() {
   const config = {
