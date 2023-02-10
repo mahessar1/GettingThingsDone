@@ -1,6 +1,7 @@
 import { Task } from '@/model/task';
 import axios from 'axios'
 import { onMounted, ref } from 'vue';
+import { alertController } from '@ionic/vue';
 
 
 export function useTasks() {
@@ -28,7 +29,27 @@ export function useTasks() {
 
         const response = await axios.post('http://localhost:8080/api/tasks', task, config);
         postedTask.value = response.data;
+
+        presentAlert(postedTask.value)
     }
+
+    
+
+const presentAlert = async (task: any) => {
+    const alert = await alertController.create({
+      header: "Task with the Title " + task.title + ((task.lists===null) ? "has been created and is Unassigned" : " has been created in the list: " + task.lists.title),
+      buttons: [
+        {
+          text: "Okay!",
+          handler: () => {
+            history.back();
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
+  };
 
     onMounted(() => {
         getTasks();

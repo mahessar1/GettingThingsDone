@@ -29,24 +29,28 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-list v-for="date in dates" v-bind:key="date">
-        <ion-list-header lines="full">
-          <ion-label >{{ date }}</ion-label>
+      <ion-list v-for="(tasks) in taskPerDate" v-bind:key="tasks">
+        <ion-list-header  lines="full">
+          <ion-label>{{tasks.date}}</ion-label>
         </ion-list-header>
-        <ion-item v-for="task in tasks" v-bind:key="task"  button :router-link="'/tabs/taskdetails'">
-          <ion-label v-for="time in times" v-bind:key="time">{{ task.title }}</ion-label>
+        <ion-item v-for="(task) in tasks.tasklist" v-bind:key="task" button :router-link="'/tabs/taskdetails/' + task.id">
+          <ion-label >{{"Due date: " + task.dueDate.substring(11) + "Uhr /////////// task title: " + task.title }}</ion-label>
         </ion-item>
       </ion-list>
-      <ion-button v-on:click="collectDates">Get Tasks</ion-button>
+      <p v-if="show">
+        <ion-button v-on:click="collectDates(), hidden()">Get Tasks</ion-button>
+      </p>
     </ion-content>
     <ion-menu :type="menuType" content-id="main-content">
       <ion-content class="ion-padding">
         <ion-toolbar>
-          <ion-title>In which list you wanna add this task?</ion-title>
+          <ion-title>Create a task/project</ion-title>
         </ion-toolbar>
-        <ion-button>Add an undefined task</ion-button>
+        <ion-button router-link="/tabs/newtask">Create new task</ion-button>
+        <ion-button router-link="/tabs/newproject">Creae new project</ion-button>
         <ion-menu-toggle>
-          <ion-button>Close the menu</ion-button>
+    
+          <ion-button color="danger">Close the menu</ion-button>
         </ion-menu-toggle>
       </ion-content>
     </ion-menu>
@@ -55,6 +59,7 @@
 
 <script setup lang="ts">
 import {
+  IonBackButton,
   IonCol,
   IonButton,
   IonRow,
@@ -74,41 +79,21 @@ import {
   IonContent,
   IonButtons,
 } from "@ionic/vue";
-import { onMounted, ref } from "vue";
+import { onMounted, onUpdated, ref } from "vue";
 import { addCircle } from "ionicons/icons";
 import { useTasks } from "../composables/useTasks";
 
 const menuType = ref("overlay");
 const { tasks, getTasks } = useTasks();
-
-/*
-const dates = ref([]);
-
-const times = ref([]);
-function collectDates() {
-  let i;
-  const localDateTimes = [];
-  for (i = 0; i < tasks.value.length; i++) {
-    localDateTimes.push(tasks.value[i].dueDate);
-    if (
-      !dates.value.includes(
-        localDateTimes[i].substring(0, localDateTimes[i].indexOf("T"))
-      )
-    ) {
-      dates.value.push(
-        localDateTimes[i].substring(0, localDateTimes[i].indexOf("T"))
-      );
-    }
-    times.value.push({"time": localDateTimes[i].substring(11),
-                      "taskId": tasks.value[i].id});
-  }
-  console.log(dates, times,tasks);
-}
-*/
-
-function collectDates() {
-  const taskPerDate = ref<any>([]);
+const taskPerDate = ref<any>([]);
   const dates = ref<any>([]);
+let show = true;
+function hidden() {
+  show = false;
+}
+
+function collectDates() {
+  
   (tasks.value).forEach(task => {
     if(!(dates.value.includes(task.dueDate.substring(0, task.dueDate.indexOf("T"))))) {
       dates.value.push(task.dueDate.substring(0, task.dueDate.indexOf("T")));
@@ -127,14 +112,24 @@ function collectDates() {
       taskPerDate.value.push({
           "date": date,
           "tasklist": taskList
+
         })
       
     });
+    
   console.log(taskPerDate.value);
 }
+
 onMounted(() => {
   collectDates();
+
+  
 });
+onUpdated(() => {
+  taskPerDate.value = [];
+  collectDates();
+  
+})
 </script>
 
 <style>
