@@ -13,8 +13,8 @@ export interface Projectlist {
 export interface Actionlist {
     id?: number;
     title: string;
-    created: string;
-    tasklist: any;
-    iconname: string;
+    created?: string;
+    tasklist?: any;
+    iconName: string;
     listtype?: string;
 }

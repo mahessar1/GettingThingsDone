@@ -35,7 +35,7 @@
         <ion-button
           fill="solid"
           color="primary"
-          router-link="/tabs/projectlists"
+          @click="$router.go(-1)"
           >Cancel</ion-button
         >
         <ion-button

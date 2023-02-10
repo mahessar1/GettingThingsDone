@@ -45,6 +45,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/NewProject.vue')
       },
       {
+        path: 'newactionlist',
+        component: () => import('@/views/NewActionlist.vue')
+      },
+      {
         path: 'newtask',
         component: () => import('@/views/NewTask.vue')
       },
