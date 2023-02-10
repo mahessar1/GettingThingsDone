@@ -16,17 +16,17 @@
       </ion-item>
       <ion-item>
         <ion-label>Set priority</ion-label>
-        <ion-select placeholder="Choose priority" @ionChange="pPriority = $event.detail.value">
-          <ion-select-option value="1">Hoch</ion-select-option>
-          <ion-select-option value="2">Mittel</ion-select-option>
-          <ion-select-option value="3">Tier</ion-select-option>
+        <ion-select placeholder="Choose priority" v-model="pPriority" @ionChange="pPriority = $event.detail.value">
+          <ion-select-option :value="1">Hoch</ion-select-option>
+          <ion-select-option :value="2">Mittel</ion-select-option>
+          <ion-select-option :value="3">Tief</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label>Select due date</ion-label>
         <ion-datetime-button datetime="datetime"></ion-datetime-button>
         <ion-modal :keep-contents-mounted="true">
-          <ion-datetime id="datetime"></ion-datetime>
+          <ion-datetime @ionChange="realDueDate = pDue.split('+')[0]" id="datetime" v-model="pDue"></ion-datetime>
         </ion-modal>
       </ion-item>
     </ion-list>
@@ -45,6 +45,8 @@
           >Save</ion-button
         >
       </ion-buttons>
+      <p>{{ projectlistObject }}</p>
+      <p>{{ pPriority }}</p>
     </ion-item>
   </ion-page>
 </template>
@@ -76,6 +78,7 @@ const pDescription = ref<any>("");
 const pPriority = ref<any>(0);
 const pDue = ref<any>("");
 const pStatus = ref<any>(0);
+const realDueDate = ref<any>("");
 
 /*
 const pTitle = ref<string>("");
@@ -90,7 +93,7 @@ const projectlistObject = ref<Projectlist>({
   "title": pTitle,
   "description": pDescription,
   "priority": pPriority,
-  "due": pDue,
+  "due": realDueDate,
   "status": pStatus,
 });
 </script>
