@@ -6,6 +6,8 @@ import { onMounted, ref } from 'vue';
 export function useProjectlists() {
     const projectlists = ref<Projectlist[]>([]);
     const postedProject = ref<Projectlist>();
+    const finishedProject = ref<Projectlist>();
+    const finishProjectObject = ref<any>();
 
     async function getProjectlists() {
         const config = {
@@ -29,36 +31,22 @@ export function useProjectlists() {
         postedProject.value = response.data;
     }
 
-    onMounted(() => {
-        getProjectlists();
-    })
-
-    async function editProjectList(project: Projectlist) {
+    async function finishProject(id:any) {
         const config = {
             headers: {
                 "Content-Type": "application/json"
             }
         }
-
-        const response = await axios.put('http://localhost:8080/api/tasks', project, config);
-        postedProject.value = response.data;
-
-        presentAlert(postedProject.value)
+        const response = await axios.get('http://localhost:8080/api/lists/' + id, config);
+        finishProjectObject.value = response.data;
+        finishProjectObject.value.status = 3
+        const response2 = await axios.put('http://localhost:8080/api/lists/projectlists/' + id, finishProjectObject.value, config);
+        finishedProject.value = response2.data;
     }
 
-    const presentAlert = async (task: any) => {
-        const alert = await alertController.create({
-            header: "Task with the Title " + task.title + ((task.lists === null) ? "has been created and is Unassigned" : " has been created in the list: " + task.lists.title),
-            buttons: [
-                {
-                    text: "Okay!",
-                    handler: () => {
-                        history.back();
-                    },
-                },
-            ],
-        });
+    onMounted(() => {
+        getProjectlists();
+    })
 
-    return { projectlists, postedProject, getProjectlists, createProjectlist, editProjectList, presentAlert }
-}
+    return { projectlists, postedProject, finishedProject, getProjectlists, createProjectlist, finishProject }
 }

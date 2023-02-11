@@ -42,7 +42,7 @@
               size="small"
               style="float: right"
             >
-              Open
+              Finish Task
               <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
             </ion-button>
             <ion-button v-if="task.status == 2"
