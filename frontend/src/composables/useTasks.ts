@@ -85,7 +85,34 @@ export function useTasks() {
           
         console.log(taskPerDate.value);
       }
+
+      const handlerMessage = ref("");
       
+      const alert = async (id:any) => {
+  
+        const alert = await alertController.create({
+          
+          header: "Are you sure? All assigned task will be deleted",
+          buttons: [
+            {
+              text: "No",
+              role: "cancel",
+              handler: () => {
+                handlerMessage.value = "Alert canceled";
+              },
+            },
+            {
+              text: "Yes",
+              role: "confirm",
+              handler: () => {
+                axios.delete("http://localhost:8080/api/tasks/" + id); 
+                location.reload();
+              },
+            },
+          ],
+        });
+         await alert.present();
+      }
 
     onMounted(() => {
         getTasks();
@@ -113,7 +140,7 @@ export function useTasks() {
      })
  */
 
-    return { tasks, getTasks, createTask, postedTask, collectDates, taskPerDate }
+    return { tasks, getTasks, createTask, postedTask, collectDates, taskPerDate, alert }
 
 
 }
