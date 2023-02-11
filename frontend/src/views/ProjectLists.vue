@@ -36,8 +36,6 @@
               Finish Project
               <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
             </ion-button>
-            <ion-button @click="finishProject(project.id)">
-            </ion-button>
           </ion-card-title>
         </ion-card-header>
 
