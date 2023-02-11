@@ -3,7 +3,7 @@
     <ion-list>
         <ion-header>
       <ion-toolbar>
-        <ion-title>Edit Task</ion-title>
+        <ion-title>Edit Actionlist</ion-title>
       </ion-toolbar>
     </ion-header>
       <ion-item>
@@ -22,6 +22,7 @@
         <ion-select
           placeholder="Choose List"
           @ionChange="chosenList = $event.detail.value"
+          :selected-text="liststype"
         >
           <ion-select-option value="Unnassigned">Unassigned</ion-select-option>
           <ion-select-option value="Action">Actionlist</ion-select-option>
@@ -33,6 +34,7 @@
         <ion-select
           placeholder="Choose Projectlist"
           @ionChange="tList = $event.detail.value"
+          :selected-text="tList"
         >
           <ion-select-option
             v-for="projectlist in projectlists"
@@ -74,11 +76,11 @@
         <ion-button fill="solid" color="primary" @click="$router.go(-1)"
           >Cancel</ion-button
         >
-        <ion-button fill="solid" color="primary" @click="editTask(tId)"
+        <ion-button fill="solid" color="primary" @click="editTask(taskObject)"
           >Save</ion-button
         >
       </ion-buttons>
-      <p>{{ taskObject }}</p>
+      <p>{{ task }}</p>
     </ion-item>
 </ion-page>
 </template>
@@ -100,9 +102,8 @@ import {
   IonTextarea,
   IonButton,
   IonButtons,
-  IonModal
 } from "@ionic/vue";
-import { onMounted, onUpdated } from "vue";
+import { defineComponent, onMounted, onRenderTriggered, onUpdated } from "vue";
 import { ref } from "vue";
 import { useProjectlists } from "@/composables/useProjectlists";
 import { useActionlists } from "@/composables/useActionlists";
@@ -112,51 +113,26 @@ import { useRoute } from "vue-router";
 import axios from 'axios';
 
 
+
+
+
 const liststype = ref<any>("");
 
 const chosenList = ref("");
 
 const { projectlists, getProjectlists } = useProjectlists();
 const { actionlists, getActionlists } = useActionlists();
-const { presentAlert } = useTasks();
+const { editTask } = useTasks();
 
 const task = ref<any>();
-const postedTask = ref<any>();
 
-const tId = ref<any>(0);
-const tTitle = ref<any>("");
-const tDescription = ref<any>("");
-const tDueDate = ref<any>("");
-const tStatus = ref<any>(1);
-const tList = ref<any>(null);
+const tId = ref<any>();
+const tTitle = ref<any>("task.value.title");
+const tDescription = ref<any>("task.value.description");
+const tDueDate = ref<any>("task.value.dueDate");
+const tStatus = ref<any>("task.value.status");
+const tList = ref<any>("task.value.lists.id");
 const realDueDate = ref<any>("");
-
-
-
-const taskObject = ref<any>({
-  "id": tId.value,
-  "title": tTitle.value,
-  "description": tDescription.value,
-  "status": tStatus.value,
-  "dueDate": realDueDate.value,
-  "listId": tList.value,
-});
-
-async function getTaskById(taskId: any) {
-  
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }
-        const response = await axios.get('http://localhost:8080/api/tasks/' + taskId, config);
-        task.value = response.data;
-        tId.value = task.value.id;
-        tTitle.value = task.value.title;
-        tDescription.value = task.value.description;
-        tStatus.value = task.value.status;
-        tList.value = task.value.lists.id;
-
 
 projectlists.value.forEach((projectlist) => {
   if (projectlist.id === tId.value) {
@@ -171,36 +147,36 @@ projectlists.value.forEach((projectlist) => {
     });
   }
 });
-    }
 
-    async function editTask(taskId: any) {
+const taskObject = ref<Task>({
+  id: tId,
+  title: tTitle,
+  description: tDescription,
+  status: tStatus,
+  dueDate: realDueDate,
+  listId: tList,
+});
+
+async function getTaskById(taskId: any) {
+  
         const config = {
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }
         }
-
-        
-        taskObject.value.id = parseInt(tId.value);
-        taskObject.value.title = tTitle.value;
-        taskObject.value.description = tDescription.value;
-        taskObject.value.status = parseInt(tStatus.value);
-        taskObject.value.dueDate = realDueDate.value;
-        taskObject.value.listId = parseInt(tList.value);
-        
-
-        const response = await axios.put('http://localhost:8080/api/tasks/' + taskId, taskObject, config);
-        postedTask.value = response.data;
-
-        presentAlert(postedTask.value)
+        const response = await axios.get('http://localhost:8080/api/tasks/' + taskId, config);
+        task.value = response.data;
     }
 
 onMounted(() => {
+  
   const taskId = ref(useRoute().params.id);
 getTaskById(taskId.value);
-});
-onUpdated(() => {
-  const taskId = ref(useRoute().params.id);
-getTaskById(taskId.value);
+tId.value = task.value?.id;
+tTitle.value = task.value?.title;
+tDescription.value = task.value?.description;
+tDueDate.value = task.value?.dueDate;
+tStatus.value = task.value?.status;
+tList.value = task.value.lists;
 });
 </script>

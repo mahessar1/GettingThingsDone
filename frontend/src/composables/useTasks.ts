@@ -47,14 +47,14 @@ export function useTasks() {
         presentAlert(postedTask.value)
     }
 
-    async function editTask(task: Task) {
+    async function editTask(taskId: any,task: Task) {
         const config = {
             headers: {
                 "Content-Type": "application/json"
             }
         }
 
-        const response = await axios.put('http://localhost:8080/api/tasks', task, config);
+        const response = await axios.put('http://localhost:8080/api/tasks/' + taskId, task, config);
         postedTask.value = response.data;
 
         presentAlert(postedTask.value)
@@ -163,7 +163,7 @@ export function useTasks() {
      })
  */
 
-    return { tasks, getTasks, createTask, postedTask, collectDates, taskPerDate, alert, getTaskById, editTask }
+    return { tasks, getTasks, createTask, postedTask, collectDates, taskPerDate, alert, getTaskById, editTask, presentAlert }
 
 
 }
