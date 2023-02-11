@@ -21,8 +21,8 @@
           <ion-title size="large">Projects</ion-title>
         </ion-toolbar>
       </ion-header>
-
       <ion-card v-for="project in projects" v-bind:key="project">
+      <ion-card v-if="project.status != 2">
         <ion-card-header>
           <ion-card-title
             >{{ project.title }}
@@ -31,16 +31,14 @@
               color="success"
               size="small"
               style="float: right"
-              @click="finishProject(project.id, finishProjectObject)"
+              @click="finishProject(project.id)"
             >
               Finish Project
               <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
             </ion-button>
           </ion-card-title>
         </ion-card-header>
-
         <ion-card-content> {{ project.description }} </ion-card-content>
-
         <ion-button fill="clear" :router-link="'/tabs/projecttask/' + project.id" 
           >View Tasks
           <ion-icon slot="end" :icon="eye"></ion-icon>
@@ -56,9 +54,20 @@
           >Delete Project
           <ion-icon slot="end" :icon="trash"></ion-icon>
         </ion-button>
-        <p>{{ handlerMessage }}</p>
-        <p>{{ roleMessage }}</p>
       </ion-card>
+      <ion-card v-if="project.status === 2" color="success">
+        <ion-card-header>
+          <ion-card-title
+            >{{ project.title }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content> {{ project.description }} </ion-card-content>
+        <ion-button fill="clear" color="dark" :router-link="'/tabs/projecttask/' + project.id" 
+          >View Tasks
+          <ion-icon slot="end" :icon="eye"></ion-icon>
+        </ion-button>
+      </ion-card>
+        </ion-card>
     </ion-content>
   </ion-page>
 </template>
@@ -91,19 +100,8 @@ import { useProjectlists } from "../composables/useProjectlists";
 const handlerMessage = ref("");
 const roleMessage = ref("");
 const projects = ref<any>([]);
-const { projectlists, getProjectlists, finishedProject, finishProject  } = useProjectlists();
-
-
-/*const finishProjectObject = ref<Projectlist>({
-  "id": projects.value[0],
-  "listtype" : "Projectlist",
-  "title": projects.value.title,
-  "taskList": [],
-  "description": projects.value.description,
-  "priority": projects.value.priority,
-  "due": projects.value.due,
-  "status": 3,
-});*/
+const { projectlists, getProjectlists, finishedProject, finishProject } =
+  useProjectlists();
 
 const presentAlert = async (id) => {
   const alert = await alertController.create({
@@ -130,8 +128,6 @@ const presentAlert = async (id) => {
   await alert.present();
 };
 
-
-
 async function getProjects() {
   const config = {
     headers: {
@@ -147,8 +143,6 @@ async function getProjects() {
 onMounted(() => {
   getProjects();
 });
-
-
 </script>
 
 <style scoped>

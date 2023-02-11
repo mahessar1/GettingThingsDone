@@ -38,9 +38,10 @@ export function useProjectlists() {
         }
         const response = await axios.get('http://localhost:8080/api/lists/' + id, config);
         finishProjectObject.value = response.data;
-        finishProjectObject.value.status = 3
+        finishProjectObject.value.status = 2
         const response2 = await axios.put('http://localhost:8080/api/lists/projectlists/' + id, finishProjectObject.value, config);
         finishedProject.value = response2.data;
+        location.reload();
     }
 
     onMounted(() => {
