@@ -123,7 +123,7 @@ const { presentAlert } = useTasks();
 const task = ref<any>();
 const postedTask = ref<any>();
 
-const tId = ref<any>(0);
+const tId = ref<any>(0)
 const tTitle = ref<any>("");
 const tDescription = ref<any>("");
 const tDueDate = ref<any>("");
@@ -134,7 +134,6 @@ const realDueDate = ref<any>("");
 
 
 const taskObject = ref<any>({
-  "id": tId.value,
   "title": tTitle.value,
   "description": tDescription.value,
   "status": tStatus.value,
@@ -179,20 +178,17 @@ projectlists.value.forEach((projectlist) => {
                 "Content-Type": "application/json"
             }
         }
-
-        
-        taskObject.value.id = parseInt(tId.value);
-        taskObject.value.title = tTitle.value;
-        taskObject.value.description = tDescription.value;
-        taskObject.value.status = parseInt(tStatus.value);
-        taskObject.value.dueDate = realDueDate.value;
-        taskObject.value.listId = parseInt(tList.value);
+        taskObject.value.title = await tTitle.value;
+        taskObject.value.description = await tDescription.value;
+        taskObject.value.status = await parseInt(tStatus.value);
+        taskObject.value.dueDate = await realDueDate.value;
+        taskObject.value.listId = await parseInt(tList.value);
         
 
-        const response = await axios.put('http://localhost:8080/api/tasks/' + taskId, taskObject, config);
+        const response = await axios.put('http://localhost:8080/api/tasks/' + taskId, taskObject.value, config);
         postedTask.value = response.data;
 
-        presentAlert(postedTask.value)
+        history.back();
     }
 
 onMounted(() => {
