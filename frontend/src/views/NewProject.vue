@@ -64,6 +64,8 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonSelect,
+  IonSelectOption
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { ref } from "vue";
@@ -75,7 +77,7 @@ const { postedProject, createProjectlist } = useProjectlists();
 
 const pTitle = ref<any>("");
 const pDescription = ref<any>("");
-const pPriority = ref<any>(0);
+const pPriority = ref<any>(null);
 const pDue = ref<any>("");
 const pStatus = ref<any>(0);
 const realDueDate = ref<any>("");
