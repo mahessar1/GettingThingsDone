@@ -43,7 +43,7 @@
           >View Tasks
           <ion-icon slot="end" :icon="eye"></ion-icon>
         </ion-button>
-        <ion-button fill="clear"
+        <ion-button fill="clear" :router-link="'editprojectlist/' + project.id"
           >Edit Project
           <ion-icon slot="end" :icon="pencil"></ion-icon>
         </ion-button>

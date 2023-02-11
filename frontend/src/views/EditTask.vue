@@ -78,7 +78,6 @@
           >Save</ion-button
         >
       </ion-buttons>
-      <p>{{ taskObject }}</p>
     </ion-item>
 </ion-page>
 </template>
@@ -106,7 +105,6 @@ import { onMounted, onUpdated } from "vue";
 import { ref } from "vue";
 import { useProjectlists } from "@/composables/useProjectlists";
 import { useActionlists } from "@/composables/useActionlists";
-import { Task } from "@/model/task";
 import { useTasks } from "../composables/useTasks";
 import { useRoute } from "vue-router";
 import axios from 'axios';
@@ -178,11 +176,11 @@ projectlists.value.forEach((projectlist) => {
                 "Content-Type": "application/json"
             }
         }
-        taskObject.value.title = await tTitle.value;
-        taskObject.value.description = await tDescription.value;
-        taskObject.value.status = await parseInt(tStatus.value);
-        taskObject.value.dueDate = await realDueDate.value;
-        taskObject.value.listId = await parseInt(tList.value);
+        taskObject.value.title = tTitle.value;
+        taskObject.value.description = tDescription.value;
+        taskObject.value.status = parseInt(tStatus.value);
+        taskObject.value.dueDate = realDueDate.value;
+        taskObject.value.listId = parseInt(tList.value);
         
 
         const response = await axios.put('http://localhost:8080/api/tasks/' + taskId, taskObject.value, config);

@@ -55,14 +55,12 @@ import {
   IonSelectOption,
   IonIcon
 } from "@ionic/vue";
-import { defineComponent } from "vue";
 import { ref } from "vue";
-import { Actionlist, Projectlist } from "@/model/projectlist";
-import { useProjectlists } from "@/composables/useProjectlists";
+import { Actionlist } from "@/model/projectlist";
 import { call, mail, card, americanFootball, bagHandle } from 'ionicons/icons';
 import { useActionlists } from "../composables/useActionlists";
 
-const { postedActionlist, createActionlist } = useActionlists();
+const { createActionlist } = useActionlists();
 
 
 const aTitle = ref<any>("");
