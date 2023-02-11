@@ -22,7 +22,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-card v-for="actionlist in actionlists" :key="actionlist">
+      <ion-card v-for="actionlist in actionlists" :key="actionlist.id">
         <ion-card-header>
           <ion-card-title>
             {{ actionlist.title }}
@@ -81,7 +81,7 @@ const {actionlists, getActionlists, createActionlist, postedActionlist} = useAct
 const projects = ref<any>([]);
 
 
-const presentAlert = async (id) => {
+const presentAlert = async (id: any) => {
   const alert = await alertController.create({
     header: "Are you sure? All assigned task will set on Unassigned",
     buttons: [

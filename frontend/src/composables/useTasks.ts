@@ -22,6 +22,18 @@ export function useTasks() {
         tasks.value = response.data;
     }
 
+    async function getTaskById(taskId: any) {
+        const task = ref<Task>();
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }
+        const response = await axios.get('http://localhost:8080/api/tasks/' + taskId, config);
+        task.value = response.data;
+        return task.value;
+    }
+
     async function createTask(task: Task) {
         const config = {
             headers: {
@@ -35,7 +47,18 @@ export function useTasks() {
         presentAlert(postedTask.value)
     }
 
+    async function editTask(task: Task) {
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
 
+        const response = await axios.put('http://localhost:8080/api/tasks', task, config);
+        postedTask.value = response.data;
+
+        presentAlert(postedTask.value)
+    }
 
 
 
@@ -113,7 +136,7 @@ export function useTasks() {
      })
  */
 
-    return { tasks, getTasks, createTask, postedTask, collectDates, taskPerDate }
+    return { tasks, getTasks, createTask, postedTask, collectDates, taskPerDate, getTaskById, editTask }
 
 
 }
