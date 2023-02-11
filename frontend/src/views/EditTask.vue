@@ -1,5 +1,5 @@
 <template>
-  <ion-modal ref="modal" :trigger="props.taskId">
+    <ion-page>
     <ion-list>
         <ion-header>
       <ion-toolbar>
@@ -80,9 +80,9 @@
           >Save</ion-button
         >
       </ion-buttons>
-      <p>{{ taskObject }}</p>
+      <p>{{ task }}</p>
     </ion-item>
-  </ion-modal>
+</ion-page>
 </template>
   
   <script setup lang="ts">
@@ -90,7 +90,7 @@ import {
   IonToolbar,
   IonInput,
   IonDatetimeButton,
-  IonModal,
+  IonPage,
   IonTitle,
   IonHeader,
   IonDatetime,
@@ -103,18 +103,18 @@ import {
   IonButton,
   IonButtons,
 } from "@ionic/vue";
-import { defineComponent, onMounted, onRenderTriggered } from "vue";
+import { defineComponent, onMounted, onRenderTriggered, onUpdated } from "vue";
 import { ref } from "vue";
 import { useProjectlists } from "@/composables/useProjectlists";
 import { useActionlists } from "@/composables/useActionlists";
 import { Task } from "@/model/task";
 import { useTasks } from "../composables/useTasks";
+import { useRoute } from "vue-router";
+import axios from 'axios';
 
-const props = defineProps({
-  taskId: Number,
-});
 
-const task = ref<any>();
+
+
 
 const liststype = ref<any>("");
 
@@ -122,14 +122,16 @@ const chosenList = ref("");
 
 const { projectlists, getProjectlists } = useProjectlists();
 const { actionlists, getActionlists } = useActionlists();
-const { getTaskById, editTask } = useTasks();
+const { editTask } = useTasks();
 
-const tId = ref<any>(task.value.id);
-const tTitle = ref<any>(task.value.title);
-const tDescription = ref<any>(task.value.description);
-const tDueDate = ref<any>(task.value.dueDate);
-const tStatus = ref<any>(task.value.status);
-const tList = ref<any>(task.value.lists.id);
+const task = ref<any>();
+
+const tId = ref<any>();
+const tTitle = ref<any>("task.value.title");
+const tDescription = ref<any>("task.value.description");
+const tDueDate = ref<any>("task.value.dueDate");
+const tStatus = ref<any>("task.value.status");
+const tList = ref<any>("task.value.lists.id");
 const realDueDate = ref<any>("");
 
 projectlists.value.forEach((projectlist) => {
@@ -155,7 +157,26 @@ const taskObject = ref<Task>({
   listId: tList,
 });
 
-onRenderTriggered(() => {
-  task.value = getTaskById(props.taskId);
+async function getTaskById(taskId: any) {
+  
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }
+        const response = await axios.get('http://localhost:8080/api/tasks/' + taskId, config);
+        task.value = response.data;
+    }
+
+onMounted(() => {
+  
+  const taskId = ref(useRoute().params.id);
+getTaskById(taskId.value);
+tId.value = task.value?.id;
+tTitle.value = task.value?.title;
+tDescription.value = task.value?.description;
+tDueDate.value = task.value?.dueDate;
+tStatus.value = task.value?.status;
+tList.value = task.value.lists;
 });
 </script>

@@ -63,8 +63,7 @@
       <task-details :taskId="task.id"></task-details>
       <ion-icon slot="end" :icon="eye"></ion-icon>
       View Task</ion-button>
-       <ion-button fill="clear" router-link="/tabs/"
-          >Edit Task
+       <ion-button fill="clear" :router-link="'edittask/'+task.id">Edit Task
           <ion-icon slot="end" :icon="pencil"></ion-icon>
         </ion-button>
         <ion-button
@@ -129,10 +128,10 @@ import {
   alertController,
 } from "@ionic/vue";
 import { onMounted, onUpdated, ref } from "vue";
-import { addCircle, eye, pencil, trash } from "ionicons/icons";
+import { addCircle, eye, pencil, trash, checkmarkCircle } from "ionicons/icons";
 import { useTasks } from "../composables/useTasks";
 import axios from "axios";
-import TaskDetails from "../components/TaskDetails.vue"
+import TaskDetails from "../components/TaskDetails.vue";
 
 
 const menuType = ref("overlay");
