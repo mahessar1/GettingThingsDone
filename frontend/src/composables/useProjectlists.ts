@@ -29,6 +29,7 @@ export function useProjectlists() {
 
         const response = await axios.post('http://localhost:8080/api/lists/projectlists', projectlist, config);
         postedProject.value = response.data;
+        history.back();
     }
 
     async function finishProject(id:any) {

@@ -123,6 +123,10 @@ onMounted(() => {
   getProjects();
 });
 
+window.onpopstate = function () {
+  location.reload();
+};
+
 /*projects.value = [
   "Steuererklärung",
   "Hauskauf",
