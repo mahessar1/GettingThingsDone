@@ -1,4 +1,4 @@
-<template>
+<template> 
   <ion-modal ref="modal" :trigger="props.taskId">
     <ion-header>
       <ion-toolbar>
@@ -18,7 +18,7 @@
         <ion-label>{{
           taskDetails.created.substring(0, taskDetails.created.indexOf("T")) +
           " " +
-          taskDetails.created.substring(11) +
+          taskDetails.created.substring(11, 19) +
           " Uhr"
         }}</ion-label>
       </ion-item>
@@ -41,6 +41,7 @@
       </ion-item>
     </ion-list>
   </ion-modal>
+  
 </template>
 
 <script setup lang="ts">
@@ -66,6 +67,7 @@ import { OverlayEventDetail } from "@ionic/core/components";
 const taskDetails = ref<any>([]);
 const props = defineProps({
   taskId: Number,
+  taskId2: Number
 });
 const modal = ref(null);
 
@@ -91,5 +93,6 @@ function cancel() {
 onMounted(() => {
   getTaskDetails();
 });
+
 
 </script>
