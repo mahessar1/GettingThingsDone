@@ -34,7 +34,7 @@
       <ion-buttons slot="end">
         <ion-button
           fill="solid"
-          color="primary"
+          color="danger"
           @click="$router.go(-1)"
           >Cancel</ion-button
         >

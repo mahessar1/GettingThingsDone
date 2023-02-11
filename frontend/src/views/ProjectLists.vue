@@ -143,6 +143,11 @@ async function getProjects() {
 onMounted(() => {
   getProjects();
 });
+
+window.onpopstate = function () {
+  location.reload();
+};
+
 </script>
 
 <style scoped>
