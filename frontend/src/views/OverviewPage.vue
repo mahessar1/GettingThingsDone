@@ -34,15 +34,24 @@
         <ion-list-header lines="full">
           <ion-label>{{ tasks.date }}</ion-label>
         </ion-list-header>
-<ion-card v-for="task in tasks.tasklist" v-bind:key="task">
+<ion-card  v-for="task in tasks.tasklist" v-bind:key="task">
   <ion-card-header>
-    <ion-card-title>{{task.title}} <ion-button
+    <ion-card-title>{{task.title}} <ion-button v-if="task.status == 1"
               fill="solid"
               color="success"
               size="small"
               style="float: right"
             >
-              Finish Task
+              Open
+              <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
+            </ion-button>
+            <ion-button v-if="task.status == 2"
+              fill="solid"
+              color="success"
+              size="small"
+              style="float: right"
+            >
+              In progress
               <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
             </ion-button></ion-card-title>
     
@@ -61,13 +70,14 @@
         <ion-button
           fill="clear"
           color="danger"
-          @click="presentAlert(task.id)"
+          @click="alert(task.id)"
           >Delete Task
           <ion-icon slot="end" :icon="trash"></ion-icon>
         </ion-button>
-        <p>{{ handlerMessage }}</p>
-        <p>{{ roleMessage }}</p>
+        
   </ion-card-content>
+ <p>{{ handlerMessage }}</p>
+        <p>{{ roleMessage }}</p>
 </ion-card>
       </ion-list>
     </ion-content>
@@ -83,6 +93,7 @@
         <ion-menu-toggle>
           <ion-button color="danger">Close the menu</ion-button>
         </ion-menu-toggle>
+        
       </ion-content>
     </ion-menu>
   </ion-page>
@@ -125,7 +136,7 @@ import TaskDetails from "../components/TaskDetails.vue"
 
 
 const menuType = ref("overlay");
-const { tasks, getTasks, collectDates, taskPerDate } = useTasks();
+const { tasks, getTasks, collectDates, taskPerDate, alert } = useTasks();
 const handlerMessage = ref("");
 const roleMessage = ref("");
 
@@ -138,28 +149,7 @@ window.onpopstate = function () {
 };
 
 
-const presentAlert = async (id) => {
-  const alert = await alertController.create({
-    header: "Are you sure? All assigned task will be deleted",
-    buttons: [
-      {
-        text: "No",
-        role: "cancel",
-        handler: () => {
-          handlerMessage.value = "Alert canceled";
-        },
-      },
-      {
-        text: "Yes",
-        role: "confirm",
-        handler: () => {
-          axios.delete("http://localhost:8080/api/tasks/" + id);
-          location.reload();
-        },
-      },
-    ],
-  });
-}
+
 </script>
 
 <style>

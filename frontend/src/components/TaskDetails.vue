@@ -64,7 +64,6 @@ import { useRoute } from "vue-router";
 import { OverlayEventDetail } from "@ionic/core/components";
 
 const taskDetails = ref<any>([]);
-const route = useRoute();
 const props = defineProps({
   taskId: Number,
 });
@@ -92,4 +91,5 @@ function cancel() {
 onMounted(() => {
   getTaskDetails();
 });
+
 </script>

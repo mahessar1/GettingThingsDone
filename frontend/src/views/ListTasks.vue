@@ -23,6 +23,17 @@
             <ion-icon slot="end" :icon="eye"></ion-icon>
             View Task</ion-button
           >
+           <ion-button fill="clear" router-link="/tabs/"
+          >Edit Task
+          <ion-icon slot="end" :icon="pencil"></ion-icon>
+        </ion-button>
+          <ion-button
+          fill="clear"
+          color="danger"
+          @click="alert(task.id)"
+          >Delete Task
+          <ion-icon slot="end" :icon="trash"></ion-icon>
+        </ion-button>
         </ion-card-content>
       </ion-card>
     </ion-content>
@@ -45,16 +56,19 @@ import {
 } from "@ionic/vue";
 import { addCircle, eye, pencil, trash, checkmarkCircle } from "ionicons/icons";
 import axios from "axios";
-import { onMounted, onUpdated, ref } from "vue";
+import { onBeforeMount, onMounted, onUpdated, ref } from "vue";
 import { useRoute } from "vue-router";
 import TaskDetails from "../components/TaskDetails.vue";
+import { useTasks } from "../composables/useTasks";
+
+const {alert } = useTasks();
 
 const listTasks = ref<any>([]);
 
 async function getListTasks() {
   const route = useRoute();
 
-  const id = route.params.id;
+  const id2 = route.params.id;
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -62,7 +76,7 @@ async function getListTasks() {
     },
   };
   const response = await axios.get(
-    "http://localhost:8080/api/lists/" + id + "/tasks",
+    "http://localhost:8080/api/lists/" + id2 + "/tasks",
     config
   );
   listTasks.value = response.data;
@@ -70,6 +84,14 @@ async function getListTasks() {
 onMounted(() => {
   getListTasks();
 });
+onBeforeMount(() => {
+  getListTasks();
+});
+
+window.onpopstate = function () {
+  location.reload();
+};
+
 
 </script>
 
