@@ -31,9 +31,12 @@
               color="success"
               size="small"
               style="float: right"
+              @click="finishProject(project.id, finishProjectObject)"
             >
               Finish Project
               <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
+            </ion-button>
+            <ion-button @click="finishProject(project.id)">
             </ion-button>
           </ion-card-title>
         </ion-card-header>
@@ -69,7 +72,6 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonButtons,
-  
   IonPage,
   IonHeader,
   IonToolbar,
@@ -84,11 +86,26 @@ import {
 } from "@ionic/vue";
 import { addCircle, eye, pencil, trash, checkmarkCircle } from "ionicons/icons";
 import axios from "axios";
-import { onMounted, onUpdated, ref } from "vue";
+import { onMounted, ref } from "vue";
+import { Projectlist } from "@/model/projectlist";
+import { useProjectlists } from "../composables/useProjectlists";
 
 const handlerMessage = ref("");
 const roleMessage = ref("");
 const projects = ref<any>([]);
+const { projectlists, getProjectlists, finishedProject, finishProject  } = useProjectlists();
+
+
+/*const finishProjectObject = ref<Projectlist>({
+  "id": projects.value[0],
+  "listtype" : "Projectlist",
+  "title": projects.value.title,
+  "taskList": [],
+  "description": projects.value.description,
+  "priority": projects.value.priority,
+  "due": projects.value.due,
+  "status": 3,
+});*/
 
 const presentAlert = async (id) => {
   const alert = await alertController.create({
@@ -98,7 +115,7 @@ const presentAlert = async (id) => {
         text: "No",
         role: "cancel",
         handler: () => {
-          handlerMessage.value = "Alert canceled";
+          //handlerMessage.value = "Alert canceled";
         },
       },
       {
@@ -116,11 +133,11 @@ const presentAlert = async (id) => {
 };
 
 
+
 async function getProjects() {
   const config = {
     headers: {
       "Content-Type": "application/json",
-      "x-apikey": "5b2e750b0c346a20d90a5dda",
     },
   };
   const response = await axios.get(
@@ -133,12 +150,7 @@ onMounted(() => {
   getProjects();
 });
 
-/*projects.value = [
-  "Steuererklärung",
-  "Hauskauf",
-  "Haustier adoptieren",
-  "Heimkino",
-];*/
+
 </script>
 
 <style scoped>

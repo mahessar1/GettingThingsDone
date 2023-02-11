@@ -42,7 +42,7 @@
               size="small"
               style="float: right"
             >
-              Open
+              Finish Task
               <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
             </ion-button>
             <ion-button v-if="task.status == 2"
@@ -129,7 +129,7 @@ import {
   alertController,
 } from "@ionic/vue";
 import { onMounted, onUpdated, ref } from "vue";
-import { addCircle, eye, pencil, trash } from "ionicons/icons";
+import { addCircle, checkmarkCircle, eye, pencil, trash } from "ionicons/icons";
 import { useTasks } from "../composables/useTasks";
 import axios from "axios";
 import TaskDetails from "../components/TaskDetails.vue"
