@@ -110,6 +110,7 @@ public class ListRestContoller {
             Lists result = optionalList.get();
             projectList.setId(result.getId());
             projectList.setCreated(result.getCreated());
+            projectList.setTaskList(result.getTaskList());
             listRepository.save(projectList);
             return new ResponseEntity<Lists>(result, HttpStatus.OK);
         } else {
