@@ -65,12 +65,7 @@ const { createActionlist } = useActionlists();
 const aTitle = ref<any>("");
 const aIconname = ref<any>("");
 
-/*
-const pTitle = ref<string>("");
-const pDescription = ref<string>("");
-const pPriority = ref<number>(0);
-const pDue = ref<string>("");
-const pStatus = ref<number>(0);*/
+
 
 
 const actionlistObject = ref<Actionlist>({

@@ -125,12 +125,6 @@ window.onpopstate = function () {
   location.reload();
 };
 
-/*projects.value = [
-  "Steuererklärung",
-  "Hauskauf",
-  "Haustier adoptieren",
-  "Heimkino",
-];*/
 </script>
 
 <style scoped>

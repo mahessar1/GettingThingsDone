@@ -80,12 +80,6 @@ const pDue = ref<any>("");
 const pStatus = ref<any>(0);
 const realDueDate = ref<any>("");
 
-/*
-const pTitle = ref<string>("");
-const pDescription = ref<string>("");
-const pPriority = ref<number>(0);
-const pDue = ref<string>("");
-const pStatus = ref<number>(0);*/
 
 
 const projectlistObject = ref<Projectlist>({
