@@ -25,7 +25,7 @@
       <ion-buttons slot="end">
         <ion-button
           fill="solid"
-          color="primary"
+          color="danger"
           @click="$router.go(-1)"
           >Cancel</ion-button
         >
@@ -36,7 +36,6 @@
           >Save</ion-button
         >
       </ion-buttons>
-      <p>{{ actionlistObject }}</p>
     </ion-item>
   </ion-page>
 </template>

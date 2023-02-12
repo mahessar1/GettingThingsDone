@@ -49,8 +49,6 @@
           >Delete Actionlist
           <ion-icon slot="end" :icon="trash"></ion-icon>
         </ion-button>
-        <p>{{ handlerMessage }}</p>
-        <p>{{ roleMessage }}</p>
       </ion-card>
     </ion-content>
   </ion-page>
