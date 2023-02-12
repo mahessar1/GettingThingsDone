@@ -42,7 +42,6 @@
         >Save</ion-button
       >
     </ion-buttons>
-    <p>{{ projectObject }}</p>
   </ion-item>
 </ion-page>
 </template>

@@ -56,6 +56,9 @@
 
 <script setup lang="ts">
 import {
+  IonButtons,
+  IonCardTitle,
+  IonCardHeader,
   IonPage,
   IonHeader,
   IonToolbar,
