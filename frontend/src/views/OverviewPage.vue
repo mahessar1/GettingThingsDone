@@ -52,7 +52,7 @@
               style="float: right"
             >
               In progress
-              <ion-icon slot="end" :icon="checkmarkCircle"></ion-icon>
+              <ion-icon slot="end"></ion-icon>
             </ion-button></ion-card-title>
     
     <ion-card-subtitle>{{"Due time: " + task.dueDate.substring(11) + " Uhr"}}</ion-card-subtitle>
