@@ -14,7 +14,7 @@
               <ion-menu-toggle>
                 <ion-button size="small" style="float: right">
                   <ion-icon slot="end" :icon="addCircle"></ion-icon>
-                  Add new task
+                  Add
                   
                 </ion-button>
               </ion-menu-toggle>
