@@ -68,6 +68,17 @@
           ></ion-datetime>
         </ion-modal>
       </ion-item>
+      <ion-item>
+        <ion-label>Set Status</ion-label>
+        <ion-select
+          placeholder="Status"
+          @ionChange="tStatus = $event.detail.value"
+        >
+          <ion-select-option :value="1">Open</ion-select-option>
+          <ion-select-option :value="2">In progress</ion-select-option>
+          <ion-select-option :value="3">Finished</ion-select-option>
+        </ion-select>
+      </ion-item>
     </ion-list>
     <ion-item>
       <ion-buttons slot="end">
