@@ -45,8 +45,6 @@
           >Save</ion-button
         >
       </ion-buttons>
-      <p>{{ projectlistObject }}</p>
-      <p>{{ pPriority }}</p>
     </ion-item>
   </ion-page>
 </template>
