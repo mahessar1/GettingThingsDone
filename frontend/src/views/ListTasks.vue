@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Projecttasks</ion-title>
+        <ion-title>Tasks of {{ listName }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
@@ -23,7 +23,7 @@
             <ion-icon slot="end" :icon="eye"></ion-icon>
             View Task</ion-button
           >
-           <ion-button fill="clear" router-link="/tabs/"
+           <ion-button fill="clear" :router-link="'edittask/'+task.id"
           >Edit Task
           <ion-icon slot="end" :icon="pencil"></ion-icon>
         </ion-button>
@@ -62,12 +62,12 @@ import { addCircle, eye, pencil, trash, checkmarkCircle } from "ionicons/icons";
 import axios from "axios";
 import { onActivated, onBeforeMount, onMounted, onUpdated, ref } from "vue";
 import { useRoute } from "vue-router";
-import TaskDetails from "../components/TaskDetails.vue";
 import { useTasks } from "../composables/useTasks";
 
 const {alert } = useTasks();
 
 const listTasks = ref<any>([]);
+const listName = ref<any>();
 
 async function getListTasks() {
   const route = useRoute();
@@ -84,6 +84,7 @@ async function getListTasks() {
     config
   );
   listTasks.value = response.data;
+  listName.value = listTasks.value[0].lists.title;
 }
 onMounted(() => {
   getListTasks();
