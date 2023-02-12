@@ -82,6 +82,7 @@ public class TaskRestController {
                 result.setLists(lists);
                 taskRepository.save(result);
                 lists.addTask(result);
+                listRepository.save(lists);
             } else {
                 result.setLists(null);
                 taskRepository.save(result);
